@@ -22,8 +22,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {  
-        
-
         //Memeriksa input horizontal untuk mementukan animasi bergerak kekiri dan kekanan
         horizontalInput = Input.GetAxis("Horizontal");
 
@@ -74,11 +72,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if (horizontalInput == 0)
             {
-                body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 20, 0);
+                body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 15, 0);
                 transform.localScale = new Vector3(-Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.y);
             }
             else
-                body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 10, 20);
+                body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 6, 14);
 
             wallJumpCooldown = 0;
             
