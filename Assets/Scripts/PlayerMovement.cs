@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
+
     private void Update()
     {  
         //Memeriksa input horizontal untuk mementukan animasi bergerak kekiri dan kekanan
