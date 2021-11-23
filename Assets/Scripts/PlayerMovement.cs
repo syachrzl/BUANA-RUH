@@ -12,6 +12,11 @@ public class PlayerMovement : MonoBehaviour
     private float wallJumpCooldown;
     private float horizontalInput;
 
+    public bool statusTuasUp = false;
+    public bool statusTuasDown = true;
+
+    private bool statusTombol = false;
+
     private void Awake()
     {
         // Mengambil referensi untuk rigidbody dan animator dari objek  
@@ -60,6 +65,27 @@ public class PlayerMovement : MonoBehaviour
         else
             wallJumpCooldown += Time.deltaTime;
 
+        //Elevator
+        if (statusTombol == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Debug.Log("test");
+                if (statusTuasUp == true)
+                {
+                    Debug.Log("tekan q up");
+                    statusTuasUp = false;
+                    statusTuasDown = true;
+                }
+                else if (statusTuasDown == true)
+                {
+                    Debug.Log("tekan q down");
+                    statusTuasUp = true;
+                    statusTuasDown = false;
+                }
+            }
+        }
+
     }
 
     private void Jump()
@@ -96,4 +122,14 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
         return raycastHit.collider != null;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        statusTombol = true;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        statusTombol = false;
+    }
+
 }
