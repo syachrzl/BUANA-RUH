@@ -1,39 +1,52 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerPushPull : MonoBehaviour
 {
+
     public float distance = 1f;
     public LayerMask boxMask;
 
-    GameObject Box;
-    // Start is called before the first frame update
+    public GameObject box;
+    // Use this for initialization 
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
+    // Update is called once per frame 
     void Update()
     {
+
         Physics2D.queriesStartInColliders = false;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, distance, boxMask);
 
-        if (hit.collider != null && Input.GetKey(KeyCode.E) && hit.collider.gameObject.tag == "Pushable")
+        if (hit.collider != null && hit.collider.gameObject.tag == "Pushable" && Input.GetKeyDown(KeyCode.E))
         {
-            Box = hit.collider.gameObject;
 
-            Box.GetComponent<FixedJoint2D>().enabled = true;
-            Box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
-        } else if (Input.GetKeyUp(KeyCode.E))
-            Box.GetComponent<FixedJoint2D>().enabled = false;
+
+            box = hit.collider.gameObject;
+            box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+            box.GetComponent<FixedJoint2D>().enabled = true;
+            box.GetComponent<boxpull>().beingPushed = true;
+
+        }
+        else if (Input.GetKeyUp(KeyCode.E))
+        {
+            box.GetComponent<FixedJoint2D>().enabled = false;
+            box.GetComponent<boxpull>().beingPushed = false;
+        }
+
     }
 
-    private void OnDrawGizmos()
+
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
+
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
+
+
 
     }
 }
