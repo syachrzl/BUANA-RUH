@@ -7,7 +7,7 @@ public class PlayerPushPull : MonoBehaviour
     public float distance = 1f;
     public LayerMask boxMask;
 
-    GameObject box;
+    GameObject Box;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,13 +22,12 @@ public class PlayerPushPull : MonoBehaviour
 
         if (hit.collider != null && Input.GetKey(KeyCode.E) && hit.collider.gameObject.tag == "Pushable")
         {
-            box = hit.collider.gameObject;
+            Box = hit.collider.gameObject;
 
-            box.GetComponent<FixedJoint2D>().enabled = true;
-            box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+            Box.GetComponent<FixedJoint2D>().enabled = true;
+            Box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
         } else if (Input.GetKeyUp(KeyCode.E))
-            box.GetComponent<FixedJoint2D>().enabled = false;
-        
+            Box.GetComponent<FixedJoint2D>().enabled = false;
     }
 
     private void OnDrawGizmos()
