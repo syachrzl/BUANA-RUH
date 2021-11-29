@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Obstacle
+  - Pushable
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - Ground
   - Wall
-  - 
+  - Box
   - 
   - 
   - 
@@ -54,4 +55,7 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 3234743703
+    locked: 0
+  - name: Obstacle
+    uniqueID: 3575710547
     locked: 0
