@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-      
+        anim.SetBool("walk", horizontalInput!=0);
         anim.SetBool("grounded", isGrounded());
 
         //Jump to Wall
@@ -91,12 +91,12 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             anim.SetTrigger("jump");
         }
-        else if(onWall() && !isGrounded())
-        {
-            body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 0, 0);
+        //else if(onWall() && !isGrounded())
+        //{
+            //body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 0, 0);
             //transform.localScale = new Vector3(-Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.y);
             
-        }
+       // }
         
     }
 
