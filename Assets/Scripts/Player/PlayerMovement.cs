@@ -2,7 +2,8 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    [SerializeField] private float walkspeed;
+    [SerializeField] private float Runspeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
@@ -27,34 +28,50 @@ public class PlayerMovement : MonoBehaviour
     {  
         //Memeriksa input horizontal untuk mementukan animasi bergerak kekiri dan kekanan
         horizontalInput = Input.GetAxis("Horizontal");
-
-        // Agar dapat melompat dengan mempertahankan kecepatan horizontal
         
-        
-        //Flip player ketika bergerak ke kiri atau kekanan
-        if (horizontalInput > 0.01f)
-            transform.localScale = new Vector3(1,1,1); //TransformScale
-        //MASIH BUGGGGGGGGGGG -- CARA AGAR MC TIDAK FLIP SAAT MENDORONG
-        //else if (horizontalInput < -0.01f && Input.GetKeyDown(KeyCode.F))
-            //transform.localScale = new Vector3(1, 1, 1);
-        else if (horizontalInput < -0.01f)
-            transform.localScale = new Vector3(-1, 1, 1);
+        //Run or Walk
+        if (horizontalInput > 0.01f) { 
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                anim.SetBool("run", true);
+                transform.localScale = new Vector3(1, 1, 1);
+                body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed , body.velocity.y);
+            } else
+            {
+                anim.SetBool("run", false);
+                anim.SetBool("walk", true);
+                transform.localScale = new Vector3(1, 1, 1);
+                body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
+            }
+        }
+        else if (horizontalInput < -0.01f) {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                anim.SetBool("run", true);
+                transform.localScale = new Vector3(-1, 1, 1);
+                body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed, body.velocity.y);
+            }
+            else
+            {
+                anim.SetBool("walk", true);
+                anim.SetBool("run", false);
+                transform.localScale = new Vector3(-1, 1, 1);
+                body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
+            }
+        }
 
-        //Set animator parameter
-        anim.SetBool("run", horizontalInput != 0);
+
+      
         anim.SetBool("grounded", isGrounded());
 
-        //Wall Jump Logic
+        //Jump to Wall
         if (wallJumpCooldown < 0.2f)
         {
-           
-            // Untuk bisa berjalan ke kiri dan ke kanan
-            body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y);
-
             if (onWall() && !isGrounded())
             {
-                body.gravityScale = 0;
-                body.velocity = Vector2.zero;
+                body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 0, 0);
+                body.gravityScale = 50;
+                //transform.localScale = new Vector3(-Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.y);
             }
             else
                 body.gravityScale = 7;
@@ -76,15 +93,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(onWall() && !isGrounded())
         {
-            if (horizontalInput == 0)
-            {
-                body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 15, 0);
-                transform.localScale = new Vector3(-Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.y);
-            }
-            else
-                body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 6, 14);
-
-            wallJumpCooldown = 0;
+            body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 0, 0);
+            //transform.localScale = new Vector3(-Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.y);
             
         }
         
