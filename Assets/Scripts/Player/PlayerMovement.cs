@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     private float wallJumpCooldown;
     private float horizontalInput;
 
+
+
     private void Awake()
     {
         // Mengambil referensi untuk rigidbody dan animator dari objek  
@@ -32,8 +34,11 @@ public class PlayerMovement : MonoBehaviour
         //Flip player ketika bergerak ke kiri atau kekanan
         if (horizontalInput > 0.01f)
             transform.localScale = new Vector3(1,1,1); //TransformScale
+        //MASIH BUGGGGGGGGGGG -- CARA AGAR MC TIDAK FLIP SAAT MENDORONG
+        //else if (horizontalInput < -0.01f && Input.GetKeyDown(KeyCode.F))
+            //transform.localScale = new Vector3(1, 1, 1);
         else if (horizontalInput < -0.01f)
-            transform.localScale = new Vector3(-1,1,1);
+            transform.localScale = new Vector3(-1, 1, 1);
 
         //Set animator parameter
         anim.SetBool("run", horizontalInput != 0);

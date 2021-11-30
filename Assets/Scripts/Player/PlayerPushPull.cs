@@ -6,12 +6,12 @@ public class PlayerPushPull : MonoBehaviour
 
     public float distance = 1f;
     public LayerMask boxMask;
-
+    private Animator anim;
     public GameObject box;
     // Use this for initialization 
-    void Start()
+    private void Awake()
     {
-
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame 
@@ -23,7 +23,8 @@ public class PlayerPushPull : MonoBehaviour
 
         if (hit.collider != null && hit.collider.gameObject.tag == "Pushable" && Input.GetKeyDown(KeyCode.F))
         {
-
+            // ASSET ADA SPACE DIBAWAH JADI MC MELAYANG
+            //anim.SetBool("push", Input.GetKeyDown(KeyCode.F));
 
             box = hit.collider.gameObject;
             box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
