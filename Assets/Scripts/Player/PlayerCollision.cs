@@ -7,6 +7,7 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collision.transform.tag == "Obstacle")
         {
+            //collision.GetComponent<Health>().TakeDamage(damage);
             PlayerManager.isGameOver = true;
             //jika diperlukan
             gameObject.SetActive(false);
