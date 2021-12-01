@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("walk", horizontalInput!=0);
         anim.SetBool("grounded", isGrounded());
 
-        //Jump to Wall
+        //Agar tidak bisa lompat ke dinding
         if (wallJumpCooldown < 0.2f)
         {
             if (onWall() && !isGrounded())

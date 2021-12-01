@@ -4,14 +4,16 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public static bool isGameOver;
-    public GameObject gameOverScreen;
+    public GameObject gameOverScreen; // Tidak dipakai
 
-    public static Vector2 lastCheckPointPos = new Vector2(-60,0);
+    public static Vector2 lastCheckPointPos = new Vector2(-70, 0);
+
+
 
     private void Awake()
     {
         isGameOver = false;
-        GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
+        //GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
     }
 
     // Start is called before the first frame update
@@ -25,7 +27,8 @@ public class PlayerManager : MonoBehaviour
     {
         if (isGameOver)
         {
-            gameOverScreen.SetActive(true);
+            //gameOverScreen.SetActive(true);
+            ReplayLevel();
         }
     }
 
