@@ -50,11 +50,11 @@ TagManager:
   - name: Foreground
     uniqueID: 1183638751
     locked: 0
-  - name: Player
-    uniqueID: 332698903
-    locked: 0
   - name: Ground
     uniqueID: 3234743703
+    locked: 0
+  - name: Player
+    uniqueID: 332698903
     locked: 0
   - name: Obstacle
     uniqueID: 3575710547

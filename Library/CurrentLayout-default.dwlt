@@ -19,9 +19,9 @@ MonoBehaviour:
     width: 1366
     height: 685
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Inspector
   m_RootView: {fileID: 6}
-  m_MinSize: {x: 875, y: 300}
+  m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 678, y: 492}
   m_MaxSize: {x: 14001, y: 14042}
   vertical: 0
-  controlID: 70
+  controlID: 131
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -129,7 +129,7 @@ MonoBehaviour:
   - {fileID: 12}
   - {fileID: 13}
   m_Selected: 0
-  m_LastSelected: 1
+  m_LastSelected: 0
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -369,7 +369,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -56312
+  m_LastSelectedObjectID: -23212
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -408,21 +408,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Ghost
+    - Assets/Prefabs
     m_Globs: []
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/Scripts/Ghost
+  - Assets/Prefabs
   m_LastFoldersGridSize: 96
   m_LastProjectPath: I:\My Documents\MBKM - Agate\PROJECT\BUANA-RUH
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: 1c1a0100
-    m_LastClickedID: 72220
-    m_ExpandedIDs: 00000000523f0000543f0000563f0000583f00005a3f0000663f0000683f0000fe450000204700008a4900009cb6000000ca9a3b
+    scrollPos: {x: 0, y: 8}
+    m_SelectedIDs: ca950000
+    m_LastClickedID: 38346
+    m_ExpandedIDs: 00000000864100008e4100009841000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -450,7 +450,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000523f0000543f0000563f0000583f00005a3f0000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -571,24 +571,24 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 53}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 1a24ffff8a24ffffa224ffff9868ffffcaabffff50acffff9eadffffaedeffffc6deffff6edfffff5afbffff223d0000943d0000947000005a710000cc710000
+      scrollPos: {x: 0, y: 117}
+      m_SelectedIDs: be4cffff
+      m_LastClickedID: -45890
+      m_ExpandedIDs: dc53ffffb682ffff2a98ffff86a2ffffe2a2ffffd0a5ffffd2a5ffffe6a6ffff00a7ffffbea8fffff2a9ffff04aaffff88abffff46acffffe2acffff94adffff38aeffffd8aeffff9ab0ffff34b4ffffd6b4ffffeab4ffff3cb8ffff4eb8ffff1ec7ffff8acfffff9ccfffff20f3ffffd6f3ffffd441000082420000b0420000ca420000f4420000f8420000d2430000dc430000927b00000e7c00006c9400009a940000da94000078ae00009caf0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: FallingStone
+        m_OriginalName: FallingStone
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -43248
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 4}
       m_SearchString: 
@@ -634,9 +634,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 340.10458, y: 151.26837, z: -15.100508}
+    m_Target: {x: 771.2602, y: 12.141544, z: -5.7365036}
     speed: 2
-    m_Value: {x: 342.52753, y: 150.26674, z: -14.925205}
+    m_Value: {x: 771.2602, y: 12.141544, z: -5.7365036}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -687,9 +687,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 40.6727
+    m_Target: 57.314976
     speed: 2
-    m_Value: 38.92124
+    m_Value: 57.314976
   m_Ortho:
     m_Target: 1
     speed: 2

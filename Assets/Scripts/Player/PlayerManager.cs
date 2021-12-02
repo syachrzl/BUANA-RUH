@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
     public static bool isGameOver;
     public GameObject gameOverScreen; // Tidak dipakai
 
-    public static Vector2 lastCheckPointPos = new Vector2(-70, 0);
+    public static Vector2 lastCheckPointPos = new Vector2(-360, 0);
 
 
 
