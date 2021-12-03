@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         isGameOver = false;
-        //GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
+        //GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos; UNTUK DEVELOPMENT DIMATIKAN DULU
     }
 
     // Start is called before the first frame update

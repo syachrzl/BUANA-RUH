@@ -28,7 +28,7 @@ public class LadderMovement : MonoBehaviour
         }
         else
         {
-            playerRb.gravityScale = 3f;
+            //playerRb.gravityScale = 3f; TIDAK DIGUNAKAN
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
