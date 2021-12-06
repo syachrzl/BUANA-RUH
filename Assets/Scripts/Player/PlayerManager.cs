@@ -6,14 +6,14 @@ public class PlayerManager : MonoBehaviour
     public static bool isGameOver;
     public GameObject gameOverScreen; // Tidak dipakai
 
-    public static Vector2 lastCheckPointPos = new Vector2(-360, 0);
+    public static Vector2 lastCheckPointPos = new Vector2(-500, 0);
 
 
 
     private void Awake()
     {
         isGameOver = false;
-        //GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos; UNTUK DEVELOPMENT DIMATIKAN DULU
+        //GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos; 
     }
 
     // Start is called before the first frame update
