@@ -18,28 +18,37 @@ public class PlayerPushPull : MonoBehaviour
     void Update()
     {
 
+        PushPull();
+
+    }
+
+
+    public void PushPull()
+    {
         Physics2D.queriesStartInColliders = false;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, distance, boxMask);
+       
 
         if (hit.collider != null && hit.collider.gameObject.tag == "Pushable" && Input.GetKeyDown(KeyCode.F))
         {
             // ASSET ADA SPACE DIBAWAH JADI MC MELAYANG
-            //anim.SetBool("push", Input.GetKeyDown(KeyCode.F));
+            anim.SetBool("push", true);
 
             box = hit.collider.gameObject;
             box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
             box.GetComponent<FixedJoint2D>().enabled = true;
             box.GetComponent<BoxPull>().beingPushed = true;
 
+
         }
         else if (Input.GetKeyUp(KeyCode.F))
         {
             box.GetComponent<FixedJoint2D>().enabled = false;
             box.GetComponent<BoxPull>().beingPushed = false;
+            transform.localScale = new Vector3(1, 1, 1);
         }
 
     }
-
 
     void OnDrawGizmos()
     {

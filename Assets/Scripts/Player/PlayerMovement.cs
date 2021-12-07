@@ -13,7 +13,11 @@ public class PlayerMovement : MonoBehaviour
     private float wallJumpCooldown;
     private float horizontalInput;
 
-
+    //PUSH PULL
+    public bool StatusPushPull = false;
+    public float distance;
+    public LayerMask boxMask;
+    public GameObject box;
 
     private void Awake()
     {
@@ -25,46 +29,102 @@ public class PlayerMovement : MonoBehaviour
 
 
     private void Update()
-    {  
+    {
         //Memeriksa input horizontal untuk mementukan animasi bergerak kekiri dan kekanan
         horizontalInput = Input.GetAxis("Horizontal");
+
+        PushPull();
+        JumpOnWall();
+        RunOrWalk();
+
         
-        //Run or Walk
-        if (horizontalInput > 0.01f) { 
+        anim.SetBool("walk", horizontalInput!=0);
+        anim.SetBool("grounded", isGrounded());
+    }
+
+    private void RunOrWalk()
+    {
+        if (horizontalInput > 0.01f)
+        {
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 anim.SetBool("run", true);
+                anim.SetBool("pullstate", false);
                 transform.localScale = new Vector3(1, 1, 1);
-                body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed , body.velocity.y);
-            } else
-            {
-                anim.SetBool("run", false);
-                anim.SetBool("walk", true);
-                transform.localScale = new Vector3(1, 1, 1);
-                body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
-            }
-        }
-        else if (horizontalInput < -0.01f) {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                anim.SetBool("run", true);
-                transform.localScale = new Vector3(-1, 1, 1);
                 body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed, body.velocity.y);
             }
             else
             {
-                anim.SetBool("walk", true);
                 anim.SetBool("run", false);
-                transform.localScale = new Vector3(-1, 1, 1);
+                anim.SetBool("walk", true);
+                anim.SetBool("pullstate", false);
+                transform.localScale = new Vector3(1, 1, 1);
                 body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
             }
         }
+        //Mencegah flip saat menarik
+        else if (horizontalInput < -0.01f && Input.GetKey(KeyCode.F) && StatusPushPull == true)
+        {
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                anim.SetBool("pullstate", true);
+                body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed, body.velocity.y);
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+                anim.SetBool("pullstate", true);
+                body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+        else if (horizontalInput < -0.01f)
+        {
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                anim.SetBool("pullstate", false);
+                anim.SetBool("run", true);
+                body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed, body.velocity.y);
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                anim.SetBool("pullstate", false);
+                anim.SetBool("walk", true);
+                anim.SetBool("run", false);
+                body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+        }
+    }
 
 
-        anim.SetBool("walk", horizontalInput!=0);
-        anim.SetBool("grounded", isGrounded());
+    private void Jump()
+    {
+        if(isGrounded())
+        {
+            body.velocity = new Vector2(body.velocity.x, jumpPower);
+            anim.SetTrigger("jump");
+        }    
+    }
 
-        //Agar tidak bisa lompat ke dinding
+    private bool isGrounded()
+    {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        return raycastHit.collider != null;
+    }
+
+    private bool onWall()
+    {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
+        return raycastHit.collider != null;
+    }
+
+    //Agar tidak bisa lompat ke dinding
+    private void JumpOnWall()
+    { 
         if (wallJumpCooldown < 0.2f)
         {
             if (onWall() && !isGrounded())
@@ -81,34 +141,37 @@ public class PlayerMovement : MonoBehaviour
         }
         else
             wallJumpCooldown += Time.deltaTime;
-
     }
 
-    private void Jump()
+    //Function untuk Push dan Pull Box
+    public void PushPull()
     {
-        if(isGrounded())
+        Physics2D.queriesStartInColliders = false;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, distance, boxMask);
+
+        if (hit.collider != null && hit.collider.gameObject.tag == "Pushable" && Input.GetKeyDown(KeyCode.F))
         {
-            body.velocity = new Vector2(body.velocity.x, jumpPower);
-            anim.SetTrigger("jump");
-        }
-        //else if(onWall() && !isGrounded())
-        //{
-            //body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 0, 0);
-            //transform.localScale = new Vector3(-Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.y);
+            StatusPushPull = true;
             
-       // }
-        
+            box = hit.collider.gameObject;
+            box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+            box.GetComponent<FixedJoint2D>().enabled = true;
+            box.GetComponent<BoxPull>().beingPushed = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.F))
+        {
+            box.GetComponent<FixedJoint2D>().enabled = false;
+            box.GetComponent<BoxPull>().beingPushed = false;
+            transform.localScale = new Vector3(1, 1, 1);
+            StatusPushPull = false;
+        }
+
     }
 
-    private bool isGrounded()
+    void OnDrawGizmos()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        return raycastHit.collider != null;
-    }
+        Gizmos.color = Color.yellow;
 
-    private bool onWall()
-    {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
-        return raycastHit.collider != null;
+        Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
     }
 }
