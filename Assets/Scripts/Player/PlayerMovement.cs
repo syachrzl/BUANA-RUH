@@ -62,23 +62,26 @@ public class PlayerMovement : MonoBehaviour
                 body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
             }
         }
-        //Mencegah flip saat menarik
-        else if (horizontalInput < -0.01f && Input.GetKey(KeyCode.F) && StatusPushPull == true)
-        {
+        //Mencegah flip saat menarik MASIH NGEBUGGGGGGGGGGGGG
+        //else if (horizontalInput < -0.01f && Input.GetKey(KeyCode.F) && StatusPushPull == true)
+        //{
+           // Debug.Log("SEBELAH KIRI");
 
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                anim.SetBool("pullstate", true);
-                body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed, body.velocity.y);
-                transform.localScale = new Vector3(1, 1, 1);
-            }
-            else
-            {
-                anim.SetBool("pullstate", true);
-                body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
-                transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
+           // if (Input.GetKey(KeyCode.LeftShift))
+           //   {
+          //      anim.SetBool("run", false);
+          //      anim.SetBool("pullstate", true);
+          //      body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
+           //     transform.localScale = new Vector3(1, 1, 1);
+           // }
+           // else
+           // {
+           //     anim.SetBool("run", false);
+          //      anim.SetBool("pullstate", true);
+          //      body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
+          //      transform.localScale = new Vector3(1, 1, 1);
+          //  }
+          //  }
         else if (horizontalInput < -0.01f)
         {
 
@@ -162,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
         {
             box.GetComponent<FixedJoint2D>().enabled = false;
             box.GetComponent<BoxPull>().beingPushed = false;
-            transform.localScale = new Vector3(1, 1, 1);
+            //transform.localScale = new Vector3(1, 1, 1);
             StatusPushPull = false;
         }
 
