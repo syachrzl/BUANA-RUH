@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         JumpOnWall();
         RunOrWalk();
 
-        
+
         anim.SetBool("walk", horizontalInput!=0);
         anim.SetBool("grounded", isGrounded());
     }
@@ -49,7 +49,8 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 anim.SetBool("run", true);
-                anim.SetBool("pullstate", false);
+                anim.SetBool("walk", false);
+                //anim.SetBool("pullstate", false);
                 transform.localScale = new Vector3(1, 1, 1);
                 body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed, body.velocity.y);
             }
@@ -57,50 +58,58 @@ public class PlayerMovement : MonoBehaviour
             {
                 anim.SetBool("run", false);
                 anim.SetBool("walk", true);
-                anim.SetBool("pullstate", false);
+               //anim.SetBool("pullstate", false);
                 transform.localScale = new Vector3(1, 1, 1);
                 body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
             }
         }
-        //Mencegah flip saat menarik MASIH NGEBUGGGGGGGGGGGGG
-        //else if (horizontalInput < -0.01f && Input.GetKey(KeyCode.F) && StatusPushPull == true)
-        //{
-           // Debug.Log("SEBELAH KIRI");
 
-           // if (Input.GetKey(KeyCode.LeftShift))
-           //   {
-          //      anim.SetBool("run", false);
-          //      anim.SetBool("pullstate", true);
-          //      body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
-           //     transform.localScale = new Vector3(1, 1, 1);
-           // }
-           // else
-           // {
-           //     anim.SetBool("run", false);
-          //      anim.SetBool("pullstate", true);
-          //      body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
-          //      transform.localScale = new Vector3(1, 1, 1);
-          //  }
-          //  }
         else if (horizontalInput < -0.01f)
         {
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                anim.SetBool("pullstate", false);
+                anim.SetBool("walk", false);
                 anim.SetBool("run", true);
+                //anim.SetBool("pullstate", false);
                 body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed, body.velocity.y);
                 transform.localScale = new Vector3(-1, 1, 1);
             }
             else
             {
-                anim.SetBool("pullstate", false);
                 anim.SetBool("walk", true);
                 anim.SetBool("run", false);
+                //anim.SetBool("pullstate", false);
                 body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
                 transform.localScale = new Vector3(-1, 1, 1);
             }
+        } else
+        {
+            anim.SetBool("run", false);
+            anim.SetBool("walk", false);
+            isGrounded();
         }
+
+        //Mencegah flip saat menarik MASIH NGEBUGGGGGGGGGGGGG
+        //else if (horizontalInput < -0.01f && Input.GetKey(KeyCode.F) && StatusPushPull == true)
+        //{
+        // Debug.Log("SEBELAH KIRI");
+
+        // if (Input.GetKey(KeyCode.LeftShift))
+        //   {
+        //      anim.SetBool("run", false);
+        //      anim.SetBool("pullstate", true);
+        //      body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
+        //     transform.localScale = new Vector3(1, 1, 1);
+        // }
+        // else
+        // {
+        //     anim.SetBool("run", false);
+        //      anim.SetBool("pullstate", true);
+        //      body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
+        //      transform.localScale = new Vector3(1, 1, 1);
+        //  }
+        //  }
     }
 
 

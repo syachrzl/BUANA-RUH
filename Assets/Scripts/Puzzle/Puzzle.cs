@@ -5,7 +5,8 @@ public class Puzzle : MonoBehaviour
 {
     [SerializeField] private float startingPuzzle;
     [SerializeField] private float startEmptyPuzzle;
-      private Animator anim;
+    [SerializeField] private static float PuzzleCollect;
+    private Animator anim;
     private bool dead;
 
 
@@ -15,7 +16,15 @@ public class Puzzle : MonoBehaviour
 
     private void Awake()
     {
-        currentPuzzle = startingPuzzle;
+        //Save Puzzle/Light yang sudah didapatkan
+        if(PuzzleCollect > 0)
+        {
+            currentPuzzle = PuzzleCollect;
+        } else
+        {
+            currentPuzzle = startingPuzzle;
+        }
+        
         EmptyPuzzle = startEmptyPuzzle;
         anim = GetComponent<Animator>();
     }
@@ -23,7 +32,7 @@ public class Puzzle : MonoBehaviour
     public void AddPuzzle(float _value)
     {
         currentPuzzle = Mathf.Clamp(currentPuzzle + _value, 0, startEmptyPuzzle);
-
+        PuzzleCollect = currentPuzzle;
         if (EmptyPuzzle == 5)
         {
             //Light Keluar
@@ -38,7 +47,7 @@ public class Puzzle : MonoBehaviour
 
      private void Update()
     {
-       // if (Input.GetKeyDown(KeyCode.E))
-           // TakePuzzle(1);
+        //if (Input.GetKeyDown(KeyCode.C))
+            //AddPuzzle(1);
      }
 }

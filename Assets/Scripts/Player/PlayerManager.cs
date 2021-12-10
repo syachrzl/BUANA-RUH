@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static bool isGameOver;
-    public GameObject gameOverScreen; // Tidak dipakai
-
+    public static bool isGameOver; // Ketika mati maka gameover
+    public GameObject startScreen; // Untuk Mengaktifkan Start
     public static Vector2 lastCheckPointPos = new Vector2(-500, 0);
 
 
@@ -13,16 +12,9 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         isGameOver = false;
-        GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos; 
+        GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (isGameOver)
@@ -30,6 +22,13 @@ public class PlayerManager : MonoBehaviour
             //gameOverScreen.SetActive(true);
             ReplayLevel();
         }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            startScreen.SetActive(true);
+        }
+    
+
     }
 
     public void ReplayLevel()
@@ -37,3 +36,4 @@ public class PlayerManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
+
