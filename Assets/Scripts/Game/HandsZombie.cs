@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class HandsZombie : MonoBehaviour
 {
-    //SEDANG DALAM PERBAIKAN CODE
     public GameObject player;
     public Rigidbody2D playerRB;
 
     public Transform handZombie;
     public Transform target;
-    //public Collider2D groundColl;
+    public Collider2D groundColl;
 
     public float speed = 0.8f;
 
     private bool statusHand = false;
-    //public PlayerDeath pd;
+  
 
     private void Start()
     {
-        //groundColl = GetComponent<Collider2D>();
+        groundColl = GetComponent<Collider2D>();
     }
 
     private void Update()
@@ -29,15 +28,15 @@ public class HandsZombie : MonoBehaviour
             // stop gerakan player
             playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
             // agar player bisa masuk ke dalam tanah
-            //groundColl.isTrigger = true;
+            groundColl.isTrigger = true;
             // agar gerakan player sama dengan tangan zombie yang akan masuk kedalam tanah
-            // player.transform.SetParent(handZombie, true);
+            player.transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         }
 
         if (transform.position.y <= target.position.y)
         {
-            //pd.statusDie = true;
+            //Player DIE
         }
     }
 

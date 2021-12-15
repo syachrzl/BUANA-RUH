@@ -5,12 +5,13 @@ public class Puzzle : MonoBehaviour
 {
     [SerializeField] private float startingPuzzle;
     [SerializeField] private float startEmptyPuzzle;
-    [SerializeField] private static float PuzzleCollect;
+    public static float PuzzleCollect;
     private Animator anim;
     private bool dead;
 
-
+    //Menampilkan puzzle yang sudah didapatkan
     public float currentPuzzle { get; private set; }
+    //Menampilkan puzzle kosong
     public float EmptyPuzzle { get; private set; }
 
 
@@ -20,8 +21,10 @@ public class Puzzle : MonoBehaviour
         if(PuzzleCollect > 0)
         {
             currentPuzzle = PuzzleCollect;
-        } else
+        } else if (PlayerManager.puzzleTotal > 0)
         {
+            currentPuzzle = PlayerManager.puzzleTotal;
+        } else {
             currentPuzzle = startingPuzzle;
         }
         
@@ -43,11 +46,13 @@ public class Puzzle : MonoBehaviour
     public void TakePuzzle(float _damage)
     {
         currentPuzzle = Mathf.Clamp(currentPuzzle - _damage, 0, startEmptyPuzzle);
+
     }
 
      private void Update()
     {
+        PlayerManager.puzzleTotal = PuzzleCollect;
         //if (Input.GetKeyDown(KeyCode.C))
-            //AddPuzzle(1);
-     }
+        //AddPuzzle(1);
+    }
 }

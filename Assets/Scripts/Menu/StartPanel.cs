@@ -5,8 +5,5 @@ using UnityEngine.SceneManagement;
 
 public class StartPanel : MonoBehaviour
 {
-    public void ExitGame()
-    {
-        SceneManager.LoadScene(0);
-    }
+    
 }

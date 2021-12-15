@@ -3,11 +3,12 @@
 public class PuzzleCollectible : MonoBehaviour
 {
     [SerializeField] private float puzzleValue;
-    private static bool alreadyTaken;
+    public static bool alreadyTaken;
 
 
     private void Awake()
     {
+        //Jika sudah diambil itemnya , ketika load atau restart maka hilang
         if(alreadyTaken == true)
         {
             gameObject.SetActive(false);
