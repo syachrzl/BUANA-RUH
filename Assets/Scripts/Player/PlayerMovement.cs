@@ -11,13 +11,22 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     private BoxCollider2D boxCollider;
     private float wallJumpCooldown;
-    private float horizontalInput;
+    public float horizontalInput;
+    private float speed;
 
     //PUSH PULL
     public bool StatusPushPull = false;
     public float distance;
     public LayerMask boxMask;
     public GameObject box;
+
+    //PLAYER RUN OR WALK
+    [Range(0.01f, 1.5f)] public float timeDuration = 1f;
+    private float clickTimeRight, clickTimeLeft;
+    private float timeLastRight, timeLastLeft;
+
+    [HideInInspector] public bool statusRun;
+    [HideInInspector] public bool statusWalk = true;
 
     private void Awake()
     {
@@ -30,86 +39,118 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        RunOrWalk();
+        Kanan();
+        Kiri();
         //Memeriksa input horizontal untuk mementukan animasi bergerak kekiri dan kekanan
         horizontalInput = Input.GetAxis("Horizontal");
+        body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
         PushPull();
         JumpOnWall();
-        RunOrWalk();
-
 
         anim.SetBool("walk", horizontalInput!=0);
         anim.SetBool("grounded", isGrounded());
+
     }
 
     private void RunOrWalk()
     {
+        //Menentukan apakah dia lari atau berjalan
+        if (statusRun == true && statusWalk == false)
+        {
+            speed = Runspeed;
+        }
+        else if (statusRun == false && statusWalk == true)
+        {
+            speed = walkspeed;
+        }
+
+
+        //Jika berlari maka animasi berubah 
         if (horizontalInput > 0.01f)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (statusRun == true)
             {
                 anim.SetBool("run", true);
                 anim.SetBool("walk", false);
-                //anim.SetBool("pullstate", false);
                 transform.localScale = new Vector3(1, 1, 1);
-                body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed, body.velocity.y);
             }
             else
             {
                 anim.SetBool("run", false);
                 anim.SetBool("walk", true);
-               //anim.SetBool("pullstate", false);
                 transform.localScale = new Vector3(1, 1, 1);
-                body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
             }
         }
 
         else if (horizontalInput < -0.01f)
         {
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (statusRun == true)
             {
                 anim.SetBool("walk", false);
                 anim.SetBool("run", true);
-                //anim.SetBool("pullstate", false);
-                body.velocity = new Vector2(Input.GetAxis("Horizontal") * Runspeed, body.velocity.y);
                 transform.localScale = new Vector3(-1, 1, 1);
             }
             else
             {
                 anim.SetBool("walk", true);
                 anim.SetBool("run", false);
-                //anim.SetBool("pullstate", false);
-                body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
                 transform.localScale = new Vector3(-1, 1, 1);
             }
-        } else
-        {
-            anim.SetBool("run", false);
-            anim.SetBool("walk", false);
-            isGrounded();
         }
 
-        //Mencegah flip saat menarik MASIH NGEBUGGGGGGGGGGGGG
-        //else if (horizontalInput < -0.01f && Input.GetKey(KeyCode.F) && StatusPushPull == true)
-        //{
-        // Debug.Log("SEBELAH KIRI");
+    }
 
-        // if (Input.GetKey(KeyCode.LeftShift))
-        //   {
-        //      anim.SetBool("run", false);
-        //      anim.SetBool("pullstate", true);
-        //      body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
-        //     transform.localScale = new Vector3(1, 1, 1);
-        // }
-        // else
-        // {
-        //     anim.SetBool("run", false);
-        //      anim.SetBool("pullstate", true);
-        //      body.velocity = new Vector2(Input.GetAxis("Horizontal") * walkspeed, body.velocity.y);
-        //      transform.localScale = new Vector3(1, 1, 1);
-        //  }
-        //  }
+    //Menentukan input horizontal, jika double click maka MC berlari
+    void Kanan()
+    {
+        if (Input.GetKeyDown(KeyCode.D)  || Input.GetKeyDown(KeyCode.RightArrow) )
+        {
+            timeLastRight = Time.time - clickTimeRight;
+            if (timeLastRight <= timeDuration)
+            {
+                statusRun = true;
+                statusWalk = false;
+            }
+            else
+            {
+                statusWalk = true;
+                statusRun = false;
+            }
+            clickTimeRight = Time.time;
+        }
+        else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow ) )
+        {
+            statusRun = false;
+            statusWalk = true;
+        }
+    }
+
+    void Kiri()
+    {
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) )
+        {
+            timeLastLeft = Time.time - clickTimeLeft;
+            if (timeLastLeft <= timeDuration)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+                statusRun = true;
+                statusWalk = false;
+            }
+            else
+            {
+                statusWalk = true;
+                statusRun = false;
+            }
+            clickTimeLeft = Time.time;
+        }
+        else if (Input.GetKeyUp(KeyCode.A)|| Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            statusRun = false;
+            statusWalk = true;
+        }
     }
 
 

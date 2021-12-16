@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviour
 
         //DEBUGING
         SavePlayer();
-        Debug.Log(TotalPuzzle);
+        //Debug.Log(TotalPuzzle);
     }
 
     public void ReplayLevel()
@@ -52,12 +52,15 @@ public class PlayerManager : MonoBehaviour
         PuzzleCollectible.alreadyTaken = data.AlreadyTaken;
         puzzleTotal = data.TotalPuzzle;
 
+        //PuzzleCollectible.AllUnique = new float[5];
+        //PuzzleCollectible.AllUnique[0] = data.unique[0];
+
+
         Vector3 position;
         position.x = data.position[0];
         position.y = data.position[1];
         position.z = data.position[2];
         transform.position = position;
-
 
         lastCheckPointPos = transform.position;
     }
