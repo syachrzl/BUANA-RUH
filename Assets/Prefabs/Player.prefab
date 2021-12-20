@@ -18,7 +18,6 @@ GameObject:
   - component: {fileID: 4228374615666704701}
   - component: {fileID: 4228374615666704700}
   - component: {fileID: 4228374615666704702}
-  - component: {fileID: 6010177176270223215}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -242,18 +241,3 @@ MonoBehaviour:
   statusTuasUp: 0
   statusTuasDown: 1
   tombolTuas: 101
---- !u!114 &6010177176270223215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4228374615666704677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03fc5a7c2bffe9f458d0caf4b155ed1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 15
-  isClimbing: 0
-  playerRb: {fileID: 4228374615666704676}

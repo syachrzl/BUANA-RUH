@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         isGameOver = false;
-        GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
+        //GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
     }
 
     void Update()
@@ -52,8 +52,7 @@ public class PlayerManager : MonoBehaviour
         PuzzleCollectible.alreadyTaken = data.AlreadyTaken;
         puzzleTotal = data.TotalPuzzle;
 
-        //PuzzleCollectible.AllUnique = new float[5];
-        //PuzzleCollectible.AllUnique[0] = data.unique[0];
+        //PuzzleCollectible.catchId = data.IdPuzzle;
 
 
         Vector3 position;

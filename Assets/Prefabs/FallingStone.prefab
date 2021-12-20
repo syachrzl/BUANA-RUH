@@ -79,7 +79,6 @@ GameObject:
   - component: {fileID: 3458912963609999408}
   - component: {fileID: 3458912963609999411}
   - component: {fileID: 3458912963609999409}
-  - component: {fileID: 3458912963609999410}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Obstacle
@@ -189,20 +188,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &3458912963609999410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3458912963609999420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d9795ce474836749930a14b5bab0a55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
-  player: {fileID: 0}
 --- !u!1 &3458912963850407187
 GameObject:
   m_ObjectHideFlags: 0

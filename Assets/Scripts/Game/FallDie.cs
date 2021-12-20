@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FallDie : MonoBehaviour
-{
-
-    [SerializeField] private float damage;
+{ 
+    public static float damage = 1;
     [SerializeField] private Transform player;
+
+    void Awake()
+    {
+        damage = 1;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.gameObject.name == "Player")
         {
-            collision.GetComponent<Health>().TakeDamage(damage);
+            //collision.GetComponent<Health>().TakeDamage(damage);
                 
         }
     }

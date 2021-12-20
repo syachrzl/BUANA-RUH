@@ -36,7 +36,8 @@ public class HandsZombie : MonoBehaviour
 
         if (transform.position.y <= target.position.y)
         {
-            //Player DIE
+            PlayerManager.isGameOver = true;
+            gameObject.SetActive(false);
         }
     }
 

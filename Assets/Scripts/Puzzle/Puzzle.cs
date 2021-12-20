@@ -52,7 +52,5 @@ public class Puzzle : MonoBehaviour
      private void Update()
     {
         PlayerManager.puzzleTotal = PuzzleCollect;
-        //if (Input.GetKeyDown(KeyCode.C))
-        //AddPuzzle(1);
     }
 }

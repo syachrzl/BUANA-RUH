@@ -8,7 +8,7 @@ public class LadderMovement : MonoBehaviour
     [SerializeField] private float speed = 5f;
     private bool isLadder = false;
     public bool isClimbing = false;
-
+    private Animator anim;
     [SerializeField] private Rigidbody2D playerRb;
 
     void Update()
@@ -23,12 +23,13 @@ public class LadderMovement : MonoBehaviour
     {
         if (isClimbing)
         {
+            anim.SetBool("uphill", true);
             playerRb.gravityScale = 0f;
             playerRb.velocity = new Vector2(playerRb.velocity.x, vert * speed);
         }
         else
         {
-            //playerRb.gravityScale = 3f; TIDAK DIGUNAKAN
+            anim.SetBool("uphill", false);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

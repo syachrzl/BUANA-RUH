@@ -2,9 +2,11 @@
 
 public class PlayerMovement : MonoBehaviour
 {
+    //MOVEMENT
     [SerializeField] private float walkspeed;
     [SerializeField] private float Runspeed;
     [SerializeField] private float jumpPower;
+    [SerializeField] private float upSpeed;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
     private Rigidbody2D body;
@@ -28,6 +30,12 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public bool statusRun;
     [HideInInspector] public bool statusWalk = true;
 
+
+    //LADDER MOVEMENT
+    private float vert;
+    private bool isLadder = false;
+    public bool isClimbing = false;
+
     private void Awake()
     {
         // Mengambil referensi untuk rigidbody dan animator dari objek  
@@ -39,9 +47,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        //Pergerakan MC
         RunOrWalk();
         Kanan();
         Kiri();
+
         //Memeriksa input horizontal untuk mementukan animasi bergerak kekiri dan kekanan
         horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
@@ -51,6 +61,38 @@ public class PlayerMovement : MonoBehaviour
 
         anim.SetBool("walk", horizontalInput!=0);
         anim.SetBool("grounded", isGrounded());
+
+    }
+
+    private void FixedUpdate()
+    {
+        vert = Input.GetAxisRaw("Vertical");
+
+        //MENENTUKAN ANIMASI SAAT MENAIKI TANGGA
+        if (vert == 1)
+        {
+            anim.SetBool("uphill", true);
+            anim.SetBool("idleUphill", false);
+        } else if (isClimbing == true && vert == 0)
+        {
+            anim.SetBool("uphill", false);
+            anim.SetBool("idleUphill", true);
+        } else
+        {
+            anim.SetBool("uphill", false);
+            anim.SetBool("idleUphill", false);
+        }
+
+        if (isLadder && Mathf.Abs(vert) > 0f)
+        {
+            isClimbing = true;
+        }
+
+            if (isClimbing)
+            {
+                body.gravityScale = 0f;
+                body.velocity = new Vector2(body.velocity.x, vert * upSpeed);
+            } 
 
     }
 
@@ -160,6 +202,9 @@ public class PlayerMovement : MonoBehaviour
         {
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             anim.SetTrigger("jump");
+
+            anim.SetBool("idleUphill", false);
+        anim.SetBool("uphill", false);
         }    
     }
 
@@ -167,6 +212,8 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
+
+        
     }
 
     private bool onWall()
@@ -226,5 +273,23 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.yellow;
 
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ladder"))
+        {
+            isLadder = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ladder"))
+        {
+            isLadder = false;
+            isClimbing = false;
+            anim.SetBool("uphill", false);
+            anim.SetBool("idleUphill", false);
+        }
     }
 }
