@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - Pushable
   - Ladder
+  - Trigger
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Wall
   - Box
   - Slippery
-  - 
+  - Stone
   - 
   - 
   - 
@@ -47,6 +48,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 2922611249
+    locked: 0
+  - name: Property
+    uniqueID: 2308539493
     locked: 0
   - name: Ground
     uniqueID: 3234743703

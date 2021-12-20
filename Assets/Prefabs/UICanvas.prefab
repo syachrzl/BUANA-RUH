@@ -432,7 +432,6 @@ GameObject:
   - component: {fileID: 1784578525221684777}
   - component: {fileID: 1784578525221684779}
   - component: {fileID: 1784578525221684776}
-  - component: {fileID: 8765639858485967578}
   m_Layer: 5
   m_Name: StartPanel
   m_TagString: Untagged
@@ -501,18 +500,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8765639858485967578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784578525221684790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19f2414caf8c5db40889b5c83f5987ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1784578525282421741
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,7 +1443,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8765639858485967578}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StartPanel, Assembly-CSharp
         m_MethodName: ExitGame
         m_Mode: 1

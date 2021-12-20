@@ -47,6 +47,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        //UNTUK MELUNCUR
+        //Slider();
+        //Debug.Log(body.velocity);
+
         //Pergerakan MC
         RunOrWalk();
         Kanan();
@@ -92,7 +96,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 body.gravityScale = 0f;
                 body.velocity = new Vector2(body.velocity.x, vert * upSpeed);
-            } 
+            }
+
+
+        
 
     }
 
@@ -291,5 +298,13 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("uphill", false);
             anim.SetBool("idleUphill", false);
         }
+    }
+
+    //Untuk Meluncur
+    public void Slider()
+    {
+        Vector2 velocityVector = body.velocity;
+        velocityVector.x = Mathf.Clamp(velocityVector.x + 25 * Time.deltaTime, 0.0f, 40);
+        body.velocity = velocityVector;
     }
 }
