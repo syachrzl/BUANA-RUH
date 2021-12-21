@@ -9,6 +9,7 @@ TagManager:
   - Pushable
   - Ladder
   - Trigger
+  - Slide
   layers:
   - Default
   - TransparentFX

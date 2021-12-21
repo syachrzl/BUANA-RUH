@@ -3,19 +3,26 @@
 public class PlayerMovement : MonoBehaviour
 {
     //MOVEMENT
+    [Header("MOVEMENT")]
     [SerializeField] private float walkspeed;
     [SerializeField] private float Runspeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private float upSpeed;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private LayerMask wallLayer;
-    private Rigidbody2D body;
-    private Animator anim;
-    private BoxCollider2D boxCollider;
     private float wallJumpCooldown;
     public float horizontalInput;
     private float speed;
 
+    //LAYER
+    [Header("LAYER")]
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask wallLayer;
+
+    //REFERENCE
+    private Rigidbody2D body;
+    private Animator anim;
+    private BoxCollider2D boxCollider;
+
+    [Header("PUSHPULL")]
     //PUSH PULL
     public bool StatusPushPull = false;
     public float distance;
@@ -23,10 +30,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject box;
 
     //PLAYER RUN OR WALK
+    [Header("RUN STATUS, LADDER AND SLIDE")]
     [Range(0.01f, 1.5f)] public float timeDuration = 1f;
     private float clickTimeRight, clickTimeLeft;
     private float timeLastRight, timeLastLeft;
-
     [HideInInspector] public bool statusRun;
     [HideInInspector] public bool statusWalk = true;
 
@@ -35,6 +42,10 @@ public class PlayerMovement : MonoBehaviour
     private float vert;
     private bool isLadder = false;
     public bool isClimbing = false;
+
+    //SLIDE
+    bool slider = false;
+    [SerializeField] private float slideSpeed;
 
     private void Awake()
     {
@@ -47,10 +58,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        //UNTUK MELUNCUR
-        //Slider();
-        //Debug.Log(body.velocity);
-
         //Pergerakan MC
         RunOrWalk();
         Kanan();
@@ -58,8 +65,17 @@ public class PlayerMovement : MonoBehaviour
 
         //Memeriksa input horizontal untuk mementukan animasi bergerak kekiri dan kekanan
         horizontalInput = Input.GetAxis("Horizontal");
-        body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
+        //Slide / Meluncur
+        if (slider == true)
+        {
+            body.velocity = new Vector2(slideSpeed += Time.deltaTime * 50, body.velocity.y);
+        } else
+        {
+            body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+        }
+
+       
         PushPull();
         JumpOnWall();
 
@@ -288,6 +304,11 @@ public class PlayerMovement : MonoBehaviour
         {
             isLadder = true;
         }
+
+        if (collision.CompareTag("Slide"))
+        {
+            slider = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -298,13 +319,12 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("uphill", false);
             anim.SetBool("idleUphill", false);
         }
+
+        if (collision.CompareTag("Slide"))
+        {
+            slider = false;
+        }
     }
 
-    //Untuk Meluncur
-    public void Slider()
-    {
-        Vector2 velocityVector = body.velocity;
-        velocityVector.x = Mathf.Clamp(velocityVector.x + 25 * Time.deltaTime, 0.0f, 40);
-        body.velocity = velocityVector;
-    }
+
 }
