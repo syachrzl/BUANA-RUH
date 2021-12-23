@@ -3,7 +3,7 @@
 public class PuzzleCollectible : MonoBehaviour
 {
     [SerializeField] private float puzzleValue;
-    public static bool alreadyTaken;
+    public static bool alreadyTaken = false;
 
     //[SerializeField] private float id;
 
@@ -25,7 +25,7 @@ public class PuzzleCollectible : MonoBehaviour
 
     void Update()
     {
-
+        Debug.Log(alreadyTaken);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
