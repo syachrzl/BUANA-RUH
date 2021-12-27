@@ -89,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         vert = Input.GetAxisRaw("Vertical");
 
         //MENENTUKAN ANIMASI SAAT MENAIKI TANGGA
-        if (vert == 1)
+        if (isClimbing == true && vert == 1 || isClimbing == true && vert == -1)
         {
             anim.SetBool("uphill", true);
             anim.SetBool("idleUphill", false);
@@ -303,6 +303,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("Ladder"))
         {
             isLadder = true;
+            isClimbing = true;
         }
 
         if (collision.CompareTag("Slide"))

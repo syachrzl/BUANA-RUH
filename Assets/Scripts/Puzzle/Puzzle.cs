@@ -17,11 +17,14 @@ public class Puzzle : MonoBehaviour
 
     private void Awake()
     {
+
+        //if(PuzzleCollect > 0 )
+        //{
+        //    currentPuzzle = PuzzleCollect;
+        //}
+
         //Save Puzzle/Light yang sudah didapatkan
-        if(PuzzleCollect > 0)
-        {
-            currentPuzzle = PuzzleCollect;
-        } else if (PlayerManager.puzzleTotal > 0)
+        if (PlayerManager.puzzleTotal > 0 || PuzzleCollect > 0)
         {
             currentPuzzle = PlayerManager.puzzleTotal;
         } else {

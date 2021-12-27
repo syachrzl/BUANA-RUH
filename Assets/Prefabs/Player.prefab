@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 4228374615666704676}
   - component: {fileID: 4228374615666704699}
   - component: {fileID: 4228374615666704696}
-  - component: {fileID: 4228374615666704698}
   - component: {fileID: 4228374615666704701}
   - component: {fileID: 4228374615666704700}
   - component: {fileID: 4228374615666704702}
+  - component: {fileID: 7243892015997459288}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -190,19 +190,6 @@ MonoBehaviour:
   statusWalk: 1
   isClimbing: 0
   slideSpeed: 0
---- !u!114 &4228374615666704698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4228374615666704677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 349ebd1843978ae418050b715641ff5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingHealth: 1
 --- !u!114 &4228374615666704701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,3 +231,18 @@ MonoBehaviour:
   statusTuasUp: 0
   statusTuasDown: 1
   tombolTuas: 101
+--- !u!114 &7243892015997459288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4228374615666704677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0bfae7ffdf91542813bd68b5dc87a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusHideS: 0
+  statusHideF: 1
+  statusTombol: 0

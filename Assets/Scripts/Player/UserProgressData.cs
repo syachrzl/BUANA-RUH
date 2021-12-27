@@ -5,12 +5,13 @@ using UnityEngine;
 [System.Serializable]
 public class UserProgressData {
 
-    //Puzzle
+    //Satuan Puzzle
     public bool AlreadyTaken;
+    public bool AlreadyTaken2;
+
+    //Save Total Puzzle
     public float TotalPuzzle;
-    public float IdPuzzle;
-
-
+    
     //Player Position
     public float[] position;
     
@@ -19,7 +20,7 @@ public class UserProgressData {
     {
         TotalPuzzle = pm.TotalPuzzle;
         AlreadyTaken = PuzzleCollectible.alreadyTaken;
-        //IdPuzzle = PuzzleCollectible.IdPuzzle;
+        AlreadyTaken2 = PuzzleCollectible2.alreadyTaken2;
 
         position = new float[3];
         position[0] = PlayerManager.lastCheckPointPos.x;
