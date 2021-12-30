@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bird : MonoBehaviour
 {
+    //Bird
     [SerializeField] private Transform player;
     [SerializeField] private float speed = 10f;
     [SerializeField] private Transform pointWayPalingKiri;
@@ -12,9 +13,7 @@ public class Bird : MonoBehaviour
 
     [HideInInspector] public bool statusBird = false;
 
-    private bool statusBirRun = false;
-
-
+    public bool statusBirRun = false;
 
     private void Update()
     {
@@ -31,12 +30,12 @@ public class Bird : MonoBehaviour
             }
         }
 
-
         if (statusBird == true)
         {
             transform.localScale = new Vector3(1f, 1f, 1f);
             this.GetComponent<WayPointFollower>().enabled = false;
             transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+
             if (player.position.x > transform.position.x)
             {
                 transform.localScale = new Vector3(-1f, 1f, 1f);
@@ -61,6 +60,7 @@ public class Bird : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             SelfDestruct();
+            statusBirRun = true;
         }
     }
 

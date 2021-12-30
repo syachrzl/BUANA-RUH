@@ -6,6 +6,9 @@ public class BoxPull : MonoBehaviour
     public bool beingPushed;
     float xPos;
 
+    //Audio
+    public AudioSource audio_PushPull;
+
     void Start()
     {
         xPos = transform.position.x;
@@ -16,9 +19,11 @@ public class BoxPull : MonoBehaviour
         if (beingPushed == false)
         {
             transform.position = new Vector3(xPos, transform.position.y);
+            //audio_PushPull.Play();
         }
         else
             xPos = transform.position.x;
+            
     }
 
 }

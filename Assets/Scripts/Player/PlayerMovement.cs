@@ -47,6 +47,9 @@ public class PlayerMovement : MonoBehaviour
     bool slider = false;
     [SerializeField] private float slideSpeed;
 
+    //BIRD
+    public Bird bird;
+
     private void Awake()
     {
         // Mengambil referensi untuk rigidbody dan animator dari objek  
@@ -70,6 +73,11 @@ public class PlayerMovement : MonoBehaviour
         if (slider == true)
         {
             body.velocity = new Vector2(slideSpeed += Time.deltaTime * 50, body.velocity.y);
+        }
+        // Bird / Melambat
+        else if (bird.statusBirRun == true)
+        {
+            body.velocity = new Vector2(horizontalInput * speed / 2 , body.velocity.y);
         } else
         {
             body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);

@@ -8,6 +8,8 @@ public class UserProgressData {
     //Satuan Puzzle
     public bool AlreadyTaken;
     public bool AlreadyTaken2;
+    public bool AlreadyTaken3;
+    public bool AlreadyTaken4;
 
     //Save Total Puzzle
     public float TotalPuzzle;
@@ -21,6 +23,8 @@ public class UserProgressData {
         TotalPuzzle = pm.TotalPuzzle;
         AlreadyTaken = PuzzleCollectible.alreadyTaken;
         AlreadyTaken2 = PuzzleCollectible2.alreadyTaken2;
+        AlreadyTaken3 = PuzzleCollectible3.alreadyTaken3;
+        AlreadyTaken4 = PuzzleCollectible4.alreadyTaken4;
 
         position = new float[3];
         position[0] = PlayerManager.lastCheckPointPos.x;

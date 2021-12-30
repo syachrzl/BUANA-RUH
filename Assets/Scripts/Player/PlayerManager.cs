@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         isGameOver = false;
-        GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
+        //GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
     }
 
     void Update()
@@ -51,6 +51,8 @@ public class PlayerManager : MonoBehaviour
         //Tidak memunculkan puzzle yang telah diambil
         PuzzleCollectible.alreadyTaken = data.AlreadyTaken;
         PuzzleCollectible2.alreadyTaken2 = data.AlreadyTaken2;
+        PuzzleCollectible3.alreadyTaken3 = data.AlreadyTaken3;
+        PuzzleCollectible4.alreadyTaken4 = data.AlreadyTaken4;
 
         //Menyimpan puzzle yang telah diambil
         Puzzle.PuzzleCollect = data.TotalPuzzle;
