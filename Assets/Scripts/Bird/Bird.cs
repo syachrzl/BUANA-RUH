@@ -14,6 +14,12 @@ public class Bird : MonoBehaviour
     [HideInInspector] public bool statusBird = false;
 
     public bool statusBirRun = false;
+    public bool slowdown;
+
+    private void Awake()
+    {
+        slowdown = false;
+    }
 
     private void Update()
     {
@@ -53,19 +59,21 @@ public class Bird : MonoBehaviour
             Invoke("SelfDestruct", 10f);
         }
 
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.name == "Player")
         {
+            Debug.Log(slowdown);
             SelfDestruct();
-            statusBirRun = true;
         }
     }
 
     void SelfDestruct()
     {
+        slowdown = true;
         Destroy(gameObject);
     }
 

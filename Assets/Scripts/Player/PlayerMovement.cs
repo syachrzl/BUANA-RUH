@@ -74,11 +74,12 @@ public class PlayerMovement : MonoBehaviour
         {
             body.velocity = new Vector2(slideSpeed += Time.deltaTime * 50, body.velocity.y);
         }
-        // Bird / Melambat
-        else if (bird.statusBirRun == true)
+        //Bird / Melambat
+        else if (bird.slowdown == true)
         {
             body.velocity = new Vector2(horizontalInput * speed / 2 , body.velocity.y);
-        } else
+        } 
+        else
         {
             body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
         }
