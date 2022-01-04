@@ -10,6 +10,7 @@ TagManager:
   - Ladder
   - Trigger
   - Slide
+  - Gate
   layers:
   - Default
   - TransparentFX
