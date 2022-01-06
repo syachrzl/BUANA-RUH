@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 public class Tuas : MonoBehaviour
 {
     // untuk tampilan instruksi di layar 
-    public Text instruksiText;
+    public TextMeshProUGUI instructionText;
     public GameObject instrukObject;
 
     public PlayerTuas pt;
@@ -12,24 +15,18 @@ public class Tuas : MonoBehaviour
 
     public bool statusPlat = false;
 
-    private void Update()
-    {
-        if (pt.statusTuasUp == true)
-        {
-            statusPlat = true;
-        }
-        else if (pt.statusTuasDown == true)
-        {
-            statusPlat = false;
-        }
-    }
+    //Kode Unik
+    public bool kodePlat1 = false;
+   
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player")
         {
             instrukObject.SetActive(true);
-            instruksiText.text = "Press E";
+            instructionText.text = "Press E";
+            kodePlat1 = true;
+            statusPlat = true;
         }
     }
     void OnTriggerExit2D(Collider2D collision)
@@ -37,6 +34,8 @@ public class Tuas : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             instrukObject.SetActive(false);
+            kodePlat1 = false;
+            statusPlat = false;
         }
     }
 }

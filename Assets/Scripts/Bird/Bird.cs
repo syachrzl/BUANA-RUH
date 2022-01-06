@@ -66,14 +66,13 @@ public class Bird : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
-            //Debug.Log(slowdown);
+            slowdown = true;
             SelfDestruct();
         }
     }
 
     void SelfDestruct()
     {
-        slowdown = true;
         Destroy(gameObject);
     }
 

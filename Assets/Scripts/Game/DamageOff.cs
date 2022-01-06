@@ -10,7 +10,7 @@ public class DamageOff : MonoBehaviour
     {
         if (collision.gameObject.name == "Stone")
         {
-            stone.SetActive(false);
+            stone.tag = "Ground";
         }
     }
 

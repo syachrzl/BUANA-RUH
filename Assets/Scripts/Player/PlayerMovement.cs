@@ -44,7 +44,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isClimbing = false;
 
     //SLIDE
-    bool slider = false;
+    [HideInInspector] bool slider = false;
+    [HideInInspector] public bool statusTraps = false;
     [SerializeField] private float slideSpeed;
 
     //BIRD
@@ -319,6 +320,11 @@ public class PlayerMovement : MonoBehaviour
         {
             slider = true;
         }
+
+        if (collision.CompareTag("Traps"))
+        {
+            statusTraps = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -333,6 +339,11 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("Slide"))
         {
             slider = false;
+        }
+
+        if (collision.CompareTag("Traps"))
+        {
+            statusTraps = false;
         }
     }
 

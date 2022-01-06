@@ -11,11 +11,11 @@ public class Platform : MonoBehaviour
     void Update()
     {
 
-        if (tuas.statusPlat == true)
+        if (tuas.statusPlat == true && tuas.kodePlat1 == true)
         {
             transform.position = Vector2.MoveTowards(transform.position, wayPoint1.transform.position, Time.deltaTime * speed);
         }
-        else if (tuas.statusPlat == false)
+        else if (tuas.statusPlat == false && tuas.kodePlat1 == true)
         {
 
             transform.position = Vector2.MoveTowards(transform.position, wayPoint2.transform.position, Time.deltaTime * speed);

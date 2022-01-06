@@ -1,9 +1,10 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class HidingInBush : MonoBehaviour
 {
-    [SerializeField] private Text instruksi;
+    [SerializeField] private TextMeshProUGUI instruksi;
     [SerializeField] private GameObject textObject;
 
     [SerializeField] private GameObject player;
