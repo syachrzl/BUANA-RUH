@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class GhostNotActive2 : MonoBehaviour
 {
-    //public GameObject hantu;
-    //public Tuas2 status;
+    public GameObject hantu;
+    public Tuas6h status;
 
-    //private void Update()
-    //{
-    //    if (status.statusPlat == true)
-    //    {
-    //        hantu.SetActive(false);
-    //    }
-    //}
+    private void Update()
+    {
+        if (status.statusPlat == true)
+        {
+            hantu.SetActive(false);
+        }
+    }
 }

@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
     //BIRD
     public Bird bird;
+    public Bird2 bird2;
 
     private void Awake()
     {
@@ -62,6 +63,27 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        //ANIMASI PUSHPULL
+        if (horizontalInput == 0 && StatusPushPull == true)
+        {
+            anim.SetBool("walk", false);
+            anim.SetBool("push", false);
+            anim.SetBool("idlePull", true);
+        }
+        else if (horizontalInput != 0 && StatusPushPull == true)
+        {
+            anim.SetBool("walk", false);
+            anim.SetBool("push", true);
+            anim.SetBool("idlePull", false);
+
+            transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
+        }
+        else
+        {
+            anim.SetBool("push", false);
+            anim.SetBool("idlePull", false);
+        };
+
         //Pergerakan MC
         RunOrWalk();
         Kanan();
@@ -76,20 +98,20 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2(slideSpeed += Time.deltaTime * 50, body.velocity.y);
         }
         //Bird / Melambat
-        else if (bird.slowdown == true)
+        else if (bird.slowdown == true || bird2.slowdown2 == true)
         {
-            body.velocity = new Vector2(horizontalInput * speed / 2 , body.velocity.y);
-        } 
+            body.velocity = new Vector2(horizontalInput * speed / 2, body.velocity.y);
+        }
         else
         {
             body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
         }
 
-       
+
         PushPull();
         JumpOnWall();
 
-        anim.SetBool("walk", horizontalInput!=0);
+        anim.SetBool("walk", horizontalInput != 0);
         anim.SetBool("grounded", isGrounded());
 
     }
@@ -103,11 +125,13 @@ public class PlayerMovement : MonoBehaviour
         {
             anim.SetBool("uphill", true);
             anim.SetBool("idleUphill", false);
-        } else if (isClimbing == true && vert == 0)
+        }
+        else if (isClimbing == true && vert == 0)
         {
             anim.SetBool("uphill", false);
             anim.SetBool("idleUphill", true);
-        } else
+        }
+        else
         {
             anim.SetBool("uphill", false);
             anim.SetBool("idleUphill", false);
@@ -118,14 +142,14 @@ public class PlayerMovement : MonoBehaviour
             isClimbing = true;
         }
 
-            if (isClimbing)
-            {
-                body.gravityScale = 0f;
-                body.velocity = new Vector2(body.velocity.x, vert * upSpeed);
-            }
+        if (isClimbing)
+        {
+            body.gravityScale = 0f;
+            body.velocity = new Vector2(body.velocity.x, vert * upSpeed);
+        }
 
 
-        
+
 
     }
 
@@ -181,11 +205,12 @@ public class PlayerMovement : MonoBehaviour
     //Menentukan input horizontal, jika double click maka MC berlari
     void Kanan()
     {
-        if (Input.GetKeyDown(KeyCode.D)  || Input.GetKeyDown(KeyCode.RightArrow) )
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             timeLastRight = Time.time - clickTimeRight;
             if (timeLastRight <= timeDuration)
             {
+                transform.localScale = new Vector3(1, 1, 1);
                 statusRun = true;
                 statusWalk = false;
             }
@@ -196,7 +221,7 @@ public class PlayerMovement : MonoBehaviour
             }
             clickTimeRight = Time.time;
         }
-        else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow ) )
+        else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
         {
             statusRun = false;
             statusWalk = true;
@@ -205,7 +230,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Kiri()
     {
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) )
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             timeLastLeft = Time.time - clickTimeLeft;
             if (timeLastLeft <= timeDuration)
@@ -221,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
             }
             clickTimeLeft = Time.time;
         }
-        else if (Input.GetKeyUp(KeyCode.A)|| Input.GetKeyUp(KeyCode.LeftArrow))
+        else if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
         {
             statusRun = false;
             statusWalk = true;
@@ -231,14 +256,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if(isGrounded())
+        if (isGrounded() && StatusPushPull == false)
         {
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             anim.SetTrigger("jump");
 
             anim.SetBool("idleUphill", false);
-        anim.SetBool("uphill", false);
-        }    
+            anim.SetBool("uphill", false);
+        }
     }
 
     private bool isGrounded()
@@ -246,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
 
-        
+
     }
 
     private bool onWall()
@@ -257,7 +282,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Agar tidak bisa lompat ke dinding
     private void JumpOnWall()
-    { 
+    {
         if (wallJumpCooldown < 0.2f)
         {
             if (onWall() && !isGrounded())
@@ -279,13 +304,13 @@ public class PlayerMovement : MonoBehaviour
     //Function untuk Push dan Pull Box
     public void PushPull()
     {
+
         Physics2D.queriesStartInColliders = false;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, distance, boxMask);
 
         if (hit.collider != null && hit.collider.gameObject.tag == "Pushable" && Input.GetKeyDown(KeyCode.F) && isGrounded())
         {
             StatusPushPull = true;
-            
             box = hit.collider.gameObject;
             box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
             box.GetComponent<FixedJoint2D>().enabled = true;
@@ -293,10 +318,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.F))
         {
+            StatusPushPull = false;
+
+            anim.SetBool("push", false);
             box.GetComponent<FixedJoint2D>().enabled = false;
             box.GetComponent<BoxPull>().beingPushed = false;
-            //transform.localScale = new Vector3(1, 1, 1);
-            StatusPushPull = false;
         }
 
     }
@@ -312,8 +338,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Ladder"))
         {
-            isLadder = true;
-            isClimbing = true;
+            if (StatusPushPull == true)
+            {
+                isLadder = false;
+                isClimbing = false;
+            }
+            else
+            {
+                isLadder = true;
+                isClimbing = true;
+            }
+
         }
 
         if (collision.CompareTag("Slide"))

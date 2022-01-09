@@ -17,7 +17,18 @@ public class Tuas : MonoBehaviour
 
     //Kode Unik
     public bool kodePlat1 = false;
-   
+
+    private void Update()
+    {
+        if (pt.statusTuasUp == true)
+        {
+            statusPlat = true;
+        }
+        else if (pt.statusTuasDown == true)
+        {
+            statusPlat = false;
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -26,7 +37,6 @@ public class Tuas : MonoBehaviour
             instrukObject.SetActive(true);
             instructionText.text = "Press E";
             kodePlat1 = true;
-            statusPlat = true;
         }
     }
     void OnTriggerExit2D(Collider2D collision)
@@ -34,8 +44,6 @@ public class Tuas : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             instrukObject.SetActive(false);
-            kodePlat1 = false;
-            statusPlat = false;
         }
     }
 }
