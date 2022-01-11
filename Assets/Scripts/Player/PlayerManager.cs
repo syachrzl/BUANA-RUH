@@ -53,6 +53,7 @@ public class PlayerManager : MonoBehaviour
         PuzzleCollectible2.alreadyTaken2 = data.AlreadyTaken2;
         PuzzleCollectible3.alreadyTaken3 = data.AlreadyTaken3;
         PuzzleCollectible4.alreadyTaken4 = data.AlreadyTaken4;
+        PuzzleCollectible5.alreadyTaken5 = data.AlreadyTaken5;
 
         //Menyimpan puzzle yang telah diambil
         Puzzle.PuzzleCollect = data.TotalPuzzle;

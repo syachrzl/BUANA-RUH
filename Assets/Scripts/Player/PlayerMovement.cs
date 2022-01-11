@@ -4,16 +4,16 @@ public class PlayerMovement : MonoBehaviour
 {
     //MOVEMENT
     [Header("MOVEMENT")]
-    [SerializeField] private float walkspeed;
-    [SerializeField] private float Runspeed;
-    [SerializeField] private float jumpPower;
-    [SerializeField] private float upSpeed;
+    [HideInInspector] private float walkspeed = 20;
+    [HideInInspector] private float Runspeed = 30;
+    [HideInInspector] private float jumpPower = 50;
+    [HideInInspector] private float upSpeed = 25;
     private float wallJumpCooldown;
-    public float horizontalInput;
+    [HideInInspector] public float horizontalInput;
     private float speed;
 
     //LAYER
-    [Header("LAYER")]
+    [Header("LAYER JUMP")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
 
@@ -24,13 +24,13 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("PUSHPULL")]
     //PUSH PULL
-    public bool StatusPushPull = false;
-    public float distance;
-    public LayerMask boxMask;
-    public GameObject box;
+    [HideInInspector] public bool StatusPushPull = false;
+    [HideInInspector] public float distance;
+    [HideInInspector] public LayerMask boxMask;
+    [HideInInspector] public GameObject box;
 
     //PLAYER RUN OR WALK
-    [Header("RUN STATUS, LADDER AND SLIDE")]
+    [Header("RUN TIME DURATION, BIRD")]
     [Range(0.01f, 1.5f)] public float timeDuration = 1f;
     private float clickTimeRight, clickTimeLeft;
     private float timeLastRight, timeLastLeft;
@@ -40,17 +40,24 @@ public class PlayerMovement : MonoBehaviour
 
     //LADDER MOVEMENT
     private float vert;
-    private bool isLadder = false;
-    public bool isClimbing = false;
+    [HideInInspector] private bool isLadder = false;
+    [HideInInspector] public bool isClimbing = false;
 
     //SLIDE
     [HideInInspector] bool slider = false;
     [HideInInspector] public bool statusTraps = false;
-    [SerializeField] private float slideSpeed;
+    [HideInInspector] private float slideSpeed = 27;
 
     //BIRD
     public Bird bird;
     public Bird2 bird2;
+
+    //SOUND EFFECT
+    [Header("SOUND EFFECT")]
+    [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource walkSound;
+    [SerializeField] private AudioSource runSound;
+    [SerializeField] private AudioSource pushpullSound;
 
     private void Awake()
     {
@@ -75,8 +82,6 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("walk", false);
             anim.SetBool("push", true);
             anim.SetBool("idlePull", false);
-
-            transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
         }
         else
         {
@@ -111,9 +116,8 @@ public class PlayerMovement : MonoBehaviour
         PushPull();
         JumpOnWall();
 
-        anim.SetBool("walk", horizontalInput != 0);
+        anim.SetBool("walk", horizontalInput != 0 && StatusPushPull == false);
         anim.SetBool("grounded", isGrounded());
-
     }
 
     private void FixedUpdate()
@@ -163,8 +167,7 @@ public class PlayerMovement : MonoBehaviour
         else if (statusRun == false && statusWalk == true)
         {
             speed = walkspeed;
-        }
-
+        } 
 
         //Jika berlari maka animasi berubah 
         if (horizontalInput > 0.01f)
@@ -173,13 +176,19 @@ public class PlayerMovement : MonoBehaviour
             {
                 anim.SetBool("run", true);
                 anim.SetBool("walk", false);
-                transform.localScale = new Vector3(1, 1, 1);
+                if (StatusPushPull == false)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
             }
             else
             {
                 anim.SetBool("run", false);
                 anim.SetBool("walk", true);
-                transform.localScale = new Vector3(1, 1, 1);
+                if (StatusPushPull == false)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
             }
         }
 
@@ -190,15 +199,27 @@ public class PlayerMovement : MonoBehaviour
             {
                 anim.SetBool("walk", false);
                 anim.SetBool("run", true);
-                transform.localScale = new Vector3(-1, 1, 1);
+                if (StatusPushPull == false)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
             }
             else
             {
                 anim.SetBool("walk", true);
                 anim.SetBool("run", false);
-                transform.localScale = new Vector3(-1, 1, 1);
+                if (StatusPushPull == false)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
             }
         }
+        //STOP SOUND EFFECT
+        else if (horizontalInput == 0)
+        {
+            walkSound.Stop();
+            runSound.Stop();
+        } 
 
     }
 
@@ -210,12 +231,19 @@ public class PlayerMovement : MonoBehaviour
             timeLastRight = Time.time - clickTimeRight;
             if (timeLastRight <= timeDuration)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                walkSound.Stop();
+                runSound.Play();
+                if (StatusPushPull == false)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
                 statusRun = true;
                 statusWalk = false;
             }
             else
             {
+                walkSound.Play();
+                runSound.Stop();
                 statusWalk = true;
                 statusRun = false;
             }
@@ -235,12 +263,19 @@ public class PlayerMovement : MonoBehaviour
             timeLastLeft = Time.time - clickTimeLeft;
             if (timeLastLeft <= timeDuration)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                walkSound.Stop();
+                runSound.Play();
+                if (StatusPushPull == false)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
                 statusRun = true;
                 statusWalk = false;
             }
             else
             {
+                walkSound.Play();
+                runSound.Stop();
                 statusWalk = true;
                 statusRun = false;
             }
@@ -256,8 +291,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded() && StatusPushPull == false)
+        if (isGrounded() && StatusPushPull == false || isClimbing == true)
         {
+            runSound.Stop();
+            walkSound.Stop();
+            jumpSound.Play();
+
+            if (Input.GetKey(KeyCode.Space) && isClimbing == true)
+            {
+                isClimbing = false;
+                isLadder = false;
+            }
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             anim.SetTrigger("jump");
 
@@ -270,7 +314,6 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
-
 
     }
 
@@ -291,11 +334,12 @@ public class PlayerMovement : MonoBehaviour
                 body.gravityScale = 50;
                 //transform.localScale = new Vector3(-Mathf.Sign(transform.localScale.x), transform.localScale.y, transform.localScale.y);
             }
-            else
+            else { 
                 body.gravityScale = 7;
-
-            if (Input.GetKey(KeyCode.Space))
+            }
+            if (Input.GetKey(KeyCode.Space)) { 
                 Jump();
+            }
         }
         else
             wallJumpCooldown += Time.deltaTime;
@@ -319,7 +363,6 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.F))
         {
             StatusPushPull = false;
-
             anim.SetBool("push", false);
             box.GetComponent<FixedJoint2D>().enabled = false;
             box.GetComponent<BoxPull>().beingPushed = false;
@@ -382,5 +425,5 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
+ 
 }

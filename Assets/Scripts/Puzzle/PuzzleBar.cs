@@ -9,12 +9,12 @@ public class PuzzleBar : MonoBehaviour
 
     private void Start()
     {
-        totalPuzzleBar.fillAmount = puzzlePlayer.EmptyPuzzle/ 5;
+        totalPuzzleBar.fillAmount = puzzlePlayer.EmptyPuzzle ;
     }
 
     private void Update()
-    {
-        currentPuzzleBar.fillAmount = puzzlePlayer.currentPuzzle / 5;
+    { 
+        currentPuzzleBar.fillAmount = puzzlePlayer.currentPuzzle / 6;
     }
 
 

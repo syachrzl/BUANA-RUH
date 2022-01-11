@@ -10,6 +10,7 @@ public class UserProgressData {
     public bool AlreadyTaken2;
     public bool AlreadyTaken3;
     public bool AlreadyTaken4;
+    public bool AlreadyTaken5;
 
     //Save Total Puzzle
     public float TotalPuzzle;
@@ -25,6 +26,7 @@ public class UserProgressData {
         AlreadyTaken2 = PuzzleCollectible2.alreadyTaken2;
         AlreadyTaken3 = PuzzleCollectible3.alreadyTaken3;
         AlreadyTaken4 = PuzzleCollectible4.alreadyTaken4;
+        AlreadyTaken5 = PuzzleCollectible5.alreadyTaken5;
 
         position = new float[3];
         position[0] = PlayerManager.lastCheckPointPos.x;
