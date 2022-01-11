@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
 
     //REFERENCE
-    private Rigidbody2D body;
+    public Rigidbody2D body;
     private Animator anim;
     private BoxCollider2D boxCollider;
 
@@ -56,8 +56,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("SOUND EFFECT")]
     [SerializeField] private AudioSource jumpSound;
     [SerializeField] private AudioSource walkSound;
+    private bool walkSFXon;
     [SerializeField] private AudioSource runSound;
+    private bool runSFXon;
     [SerializeField] private AudioSource pushpullSound;
+    private bool pushpullSFXon;
+    [SerializeField] private AudioSource climbingSound;
+    private bool climbingSFXon;
 
     private void Awake()
     {
@@ -70,91 +75,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        //ANIMASI PUSHPULL
-        if (horizontalInput == 0 && StatusPushPull == true)
-        {
-            anim.SetBool("walk", false);
-            anim.SetBool("push", false);
-            anim.SetBool("idlePull", true);
-        }
-        else if (horizontalInput != 0 && StatusPushPull == true)
-        {
-            anim.SetBool("walk", false);
-            anim.SetBool("push", true);
-            anim.SetBool("idlePull", false);
-        }
-        else
-        {
-            anim.SetBool("push", false);
-            anim.SetBool("idlePull", false);
-        };
+        //Animasi pushpull
+        PushPullAnimation();
+
+        //Memeriksa input horizontal untuk mementukan animasi bergerak kekiri dan kekanan
+        horizontalInput = Input.GetAxis("Horizontal");
+
+        //Slide saat diturunan tajam
+        isSlider();
 
         //Pergerakan MC
         RunOrWalk();
         Kanan();
         Kiri();
-
-        //Memeriksa input horizontal untuk mementukan animasi bergerak kekiri dan kekanan
-        horizontalInput = Input.GetAxis("Horizontal");
-
-        //Slide / Meluncur
-        if (slider == true)
-        {
-            body.velocity = new Vector2(slideSpeed += Time.deltaTime * 50, body.velocity.y);
-        }
-        //Bird / Melambat
-        else if (bird.slowdown == true || bird2.slowdown2 == true)
-        {
-            body.velocity = new Vector2(horizontalInput * speed / 2, body.velocity.y);
-        }
-        else
-        {
-            body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
-        }
-
-
         PushPull();
         JumpOnWall();
+        onPushPull();
 
+        //Animasi
         anim.SetBool("walk", horizontalInput != 0 && StatusPushPull == false);
         anim.SetBool("grounded", isGrounded());
     }
 
     private void FixedUpdate()
     {
-        vert = Input.GetAxisRaw("Vertical");
-
-        //MENENTUKAN ANIMASI SAAT MENAIKI TANGGA
-        if (isClimbing == true && vert == 1 || isClimbing == true && vert == -1)
-        {
-            anim.SetBool("uphill", true);
-            anim.SetBool("idleUphill", false);
-        }
-        else if (isClimbing == true && vert == 0)
-        {
-            anim.SetBool("uphill", false);
-            anim.SetBool("idleUphill", true);
-        }
-        else
-        {
-            anim.SetBool("uphill", false);
-            anim.SetBool("idleUphill", false);
-        }
-
-        if (isLadder && Mathf.Abs(vert) > 0f)
-        {
-            isClimbing = true;
-        }
-
-        if (isClimbing)
-        {
-            body.gravityScale = 0f;
-            body.velocity = new Vector2(body.velocity.x, vert * upSpeed);
-        }
-
-
-
-
+        onLadder();
     }
 
     private void RunOrWalk()
@@ -163,10 +108,41 @@ public class PlayerMovement : MonoBehaviour
         if (statusRun == true && statusWalk == false)
         {
             speed = Runspeed;
+            walkSound.Stop();
+
+            runSFXon = true;
+
+            if (runSFXon == true && runSound.isPlaying == false)
+            {
+                runSound.Play();
+            }
+            else if (runSFXon == false && runSound.isPlaying == true)
+            {
+                runSound.Stop();
+            }
+            else if (!isGrounded())
+            {
+                runSound.Stop();
+            }
         }
         else if (statusRun == false && statusWalk == true)
         {
             speed = walkspeed;
+            walkSFXon = true;
+
+            runSound.Stop();
+
+            if (walkSFXon == true && walkSound.isPlaying == false)
+            {
+                walkSound.Play();
+            }
+            else if (walkSFXon == false && walkSound.isPlaying == true)
+            {
+                walkSound.Stop();
+            } else if (!isGrounded())
+            {
+                walkSound.Stop();
+            }
         } 
 
         //Jika berlari maka animasi berubah 
@@ -213,13 +189,11 @@ public class PlayerMovement : MonoBehaviour
                     transform.localScale = new Vector3(-1, 1, 1);
                 }
             }
-        }
-        //STOP SOUND EFFECT
-        else if (horizontalInput == 0)
+        }  else if (horizontalInput == 0)
         {
             walkSound.Stop();
-            runSound.Stop();
-        } 
+        }
+
 
     }
 
@@ -231,8 +205,6 @@ public class PlayerMovement : MonoBehaviour
             timeLastRight = Time.time - clickTimeRight;
             if (timeLastRight <= timeDuration)
             {
-                walkSound.Stop();
-                runSound.Play();
                 if (StatusPushPull == false)
                 {
                     transform.localScale = new Vector3(1, 1, 1);
@@ -242,8 +214,6 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                walkSound.Play();
-                runSound.Stop();
                 statusWalk = true;
                 statusRun = false;
             }
@@ -263,8 +233,6 @@ public class PlayerMovement : MonoBehaviour
             timeLastLeft = Time.time - clickTimeLeft;
             if (timeLastLeft <= timeDuration)
             {
-                walkSound.Stop();
-                runSound.Play();
                 if (StatusPushPull == false)
                 {
                     transform.localScale = new Vector3(-1, 1, 1);
@@ -274,8 +242,6 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                walkSound.Play();
-                runSound.Stop();
                 statusWalk = true;
                 statusRun = false;
             }
@@ -291,12 +257,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+
         if (isGrounded() && StatusPushPull == false || isClimbing == true)
         {
-            runSound.Stop();
-            walkSound.Stop();
             jumpSound.Play();
-
             if (Input.GetKey(KeyCode.Space) && isClimbing == true)
             {
                 isClimbing = false;
@@ -370,11 +334,121 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    public void PushPullAnimation()
+    {
+        //ANIMASI PUSHPULL
+        if (horizontalInput == 0 && StatusPushPull == true)
+        {
+            anim.SetBool("walk", false);
+            anim.SetBool("push", false);
+            anim.SetBool("idlePull", true);
+        }
+        else if (horizontalInput != 0 && StatusPushPull == true)
+        {
+            anim.SetBool("walk", false);
+            anim.SetBool("push", true);
+            anim.SetBool("idlePull", false);
+        }
+        else
+        {
+            anim.SetBool("push", false);
+            anim.SetBool("idlePull", false);
+        };
+    }
+
+    public void onPushPull()
+    {
+        if(horizontalInput != 0 && StatusPushPull == true)
+        {
+            pushpullSFXon = true;
+
+            if (pushpullSFXon == true && pushpullSound.isPlaying == false)
+            {
+                pushpullSound.Play();
+            }
+            else if (pushpullSFXon == false && pushpullSound.isPlaying == true)
+            {
+                pushpullSound.Pause();
+            }
+
+        } else if (horizontalInput == 0 && StatusPushPull == true)
+        {
+            pushpullSound.Pause();
+        }
+        else if (horizontalInput == 0 && StatusPushPull == false)
+        {
+            pushpullSound.Stop();
+        }
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
 
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
+    }
+
+    public void isSlider()
+    {
+        //Slide / Meluncur
+        if (slider == true)
+        {
+            body.velocity = new Vector2(slideSpeed += Time.deltaTime * 50, body.velocity.y);
+        }
+        //Bird / Melambat
+        else if (bird.slowdown == true || bird2.slowdown2 == true)
+        {
+            body.velocity = new Vector2(horizontalInput * speed / 2, body.velocity.y);
+        }
+        else
+        {
+            body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+        }
+    }
+
+    public void onLadder()
+    {
+        vert = Input.GetAxisRaw("Vertical");
+
+        //MENENTUKAN ANIMASI SAAT MENAIKI TANGGA
+        if (isClimbing == true && vert == 1 || isClimbing == true && vert == -1)
+        {
+            climbingSFXon = true;
+
+            if (climbingSFXon == true && climbingSound.isPlaying == false)
+            {
+                climbingSound.Play();
+            }
+            else if (climbingSFXon == false && climbingSound.isPlaying == true)
+            {
+                climbingSound.Pause();
+            }
+
+            anim.SetBool("uphill", true);
+            anim.SetBool("idleUphill", false);
+        }
+        else if (isClimbing == true && vert == 0)
+        {
+            climbingSound.Stop();
+            anim.SetBool("uphill", false);
+            anim.SetBool("idleUphill", true);
+        }
+        else
+        {
+            anim.SetBool("uphill", false);
+            anim.SetBool("idleUphill", false);
+        }
+
+        if (isLadder && Mathf.Abs(vert) > 0f)
+        {
+            isClimbing = true;
+        }
+
+        if (isClimbing)
+        {
+            body.gravityScale = 0f;
+            body.velocity = new Vector2(body.velocity.x, vert * upSpeed);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -392,6 +466,7 @@ public class PlayerMovement : MonoBehaviour
                 isClimbing = true;
             }
 
+         
         }
 
         if (collision.CompareTag("Slide"))
@@ -412,6 +487,8 @@ public class PlayerMovement : MonoBehaviour
             isClimbing = false;
             anim.SetBool("uphill", false);
             anim.SetBool("idleUphill", false);
+
+            climbingSound.Stop();
         }
 
         if (collision.CompareTag("Slide"))
@@ -425,5 +502,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
- 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Obstacle")
+        {
+            anim.SetTrigger("die");
+        }
+    }
+
+
 }

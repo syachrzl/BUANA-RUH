@@ -8,6 +8,7 @@ public class PlayerTuas : MonoBehaviour
     private bool statusTombol = false;
 
     [SerializeField] private KeyCode tombolTuas = KeyCode.E;
+    [SerializeField] private AudioSource tuasSound;
 
     private void Update()
     {
@@ -15,6 +16,8 @@ public class PlayerTuas : MonoBehaviour
         {
             if (Input.GetKeyDown(tombolTuas))
             {
+                tuasSound.Play();
+
                 if (statusTuasUp == true)
                 {
                     statusTuasUp = false;
