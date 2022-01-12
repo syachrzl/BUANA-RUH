@@ -9,10 +9,24 @@ public class PlayerManager : MonoBehaviour
     public static float puzzleTotal;
     public float TotalPuzzle;
 
+    //BACKSOUND
+    [SerializeField] private AudioSource backsound1;
+    private bool backsound1On;
+    [SerializeField] private AudioSource backsound2;
+    private bool backsound2On;
+    [SerializeField] private AudioSource backsound3;
+    private bool backsound3On;
+    [SerializeField] private AudioSource backsound4;
+    private bool backsound4On;
+
+    //SFX
+    [SerializeField] private AudioSource respawnSound;
+
     private void Awake()
     {
         isGameOver = false;
         //GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
+        respawnSound.Play();
     }
 
     void Update()
@@ -30,8 +44,26 @@ public class PlayerManager : MonoBehaviour
 
         TotalPuzzle = puzzleTotal;
 
-        //DEBUGING
         SavePlayer();
+
+        //BACKSOUND
+        playBacksound();
+    }
+
+    //HOLD DULU
+    public void playBacksound()
+    {
+  
+        if (backsound1On == true && backsound1.isPlaying == false)
+        {
+            backsound1.Play();
+        }
+        else if (backsound1On == false && backsound1.isPlaying == true)
+        {
+            backsound1.Stop();
+            
+        } 
+
     }
 
     public void ReplayLevel()
@@ -92,6 +124,14 @@ public class PlayerManager : MonoBehaviour
     {
 
         SceneManager.LoadScene(0);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            backsound1On = true;
+        }
     }
 }
 

@@ -9,6 +9,9 @@ public class Puzzle : MonoBehaviour
     private Animator anim;
     private bool dead;
 
+    //SFX
+    [SerializeField] private AudioSource collectSound;
+
     //Menampilkan puzzle yang sudah didapatkan
     public float currentPuzzle { get; private set; }
     //Menampilkan puzzle kosong
@@ -37,6 +40,7 @@ public class Puzzle : MonoBehaviour
 
     public void AddPuzzle(float _value)
     {
+        collectSound.Play();
         currentPuzzle = Mathf.Clamp(currentPuzzle + _value, 0, startEmptyPuzzle);
         PuzzleCollect = currentPuzzle;
         if (EmptyPuzzle == 5)
