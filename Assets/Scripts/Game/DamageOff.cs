@@ -8,6 +8,7 @@ public class DamageOff : MonoBehaviour
     private bool stoneSFXon;
 
     public GameObject stone;
+    public GameObject Trigger;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -24,6 +25,8 @@ public class DamageOff : MonoBehaviour
             {
                 stoneSound.Stop();
             }
+
+            Destroy(Trigger);
         }
     }
 

@@ -14,7 +14,10 @@ public class HandsZombie : MonoBehaviour
     public float speed = 0.8f;
 
     private bool statusHand = false;
-  
+
+    //SFX
+    [SerializeField] private AudioSource screamSound;
+    private bool screamSFXon;
 
     private void Start()
     {
@@ -47,6 +50,17 @@ public class HandsZombie : MonoBehaviour
         {
             player.transform.position = new Vector2(transform.position.x, player.transform.position.y);
             statusHand = true;
+
+            screamSFXon = true;
+
+            if (screamSFXon == true && screamSound.isPlaying == false)
+            {
+                screamSound.Play();
+            }
+            else if (screamSFXon == false && screamSound.isPlaying == true)
+            {
+                screamSound.Stop();
+            }
         }
     }
 }

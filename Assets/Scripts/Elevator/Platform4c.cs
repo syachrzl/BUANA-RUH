@@ -5,13 +5,36 @@ using UnityEngine;
 public class Platform4c : MonoBehaviour
 {
     public Tuas4c tuas;
+
     // untuk arah gerakan 
     public GameObject wayPoint1;
     public GameObject wayPoint2;
 
+    [SerializeField] private AudioSource elevatorSound;
+    private bool elevatorSFXon;
+    private bool elevatorSFXon2 = false;
+
     public float speed = 2f;
     void Update()
     {
+        if (Input.GetKey(KeyCode.E) && elevatorSFXon2 == true)
+        {
+            elevatorSFXon = true;
+
+            if (elevatorSFXon == true && elevatorSound.isPlaying == false)
+            {
+                elevatorSound.Play();
+            }
+            else if (elevatorSFXon == false && elevatorSound.isPlaying == true)
+            {
+                elevatorSound.Stop();
+            }
+        }
+
+        if (transform.position.y > 274)
+        {
+            elevatorSound.Stop();
+        }
 
         if (tuas.statusPlat == true && tuas.kodePlat2 == true)
         {
@@ -19,10 +42,22 @@ public class Platform4c : MonoBehaviour
         }
         else if (tuas.statusPlat == false && tuas.kodePlat2 == true)
         {
-
             transform.position = Vector2.MoveTowards(transform.position, wayPoint2.transform.position, Time.deltaTime * speed);
         }
+    }
 
-
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            elevatorSFXon2 = true;
+        }
+    }
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            elevatorSFXon2 = false;
+        }
     }
 }

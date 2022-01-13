@@ -9,10 +9,35 @@ public class Platform4e : MonoBehaviour
     public GameObject wayPoint1;
     public GameObject wayPoint2;
 
+    [SerializeField] private AudioSource elevatorSound;
+    private bool elevatorSFXon;
+    private bool elevatorSFXon2 = false;
+
     public float speed = 2f;
     void Update()
     {
+        //SFX ON
+        if (Input.GetKey(KeyCode.E) && elevatorSFXon2 == true)
+        {
+            elevatorSFXon = true;
 
+            if (elevatorSFXon == true && elevatorSound.isPlaying == false)
+            {
+                elevatorSound.Play();
+            }
+            else if (elevatorSFXon == false && elevatorSound.isPlaying == true)
+            {
+                elevatorSound.Stop();
+            }
+        }
+
+        //SFX STOP
+        if (transform.position.x > 4083)
+        {
+            elevatorSound.Stop();
+        }
+
+        //PLATFORM ON
         if (tuas.statusPlat == true && tuas.kodePlat0 == true)
         {
             transform.position = Vector2.MoveTowards(transform.position, wayPoint1.transform.position, Time.deltaTime * speed);
@@ -24,5 +49,20 @@ public class Platform4e : MonoBehaviour
         }
 
 
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            elevatorSFXon2 = true;
+        }
+    }
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            elevatorSFXon2 = false;
+        }
     }
 }

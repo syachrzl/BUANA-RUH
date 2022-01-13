@@ -7,6 +7,7 @@ public class DetectTreeCollaps : MonoBehaviour
 {
     public TreeCollaps tc;
     public GameObject trigger;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 

@@ -13,10 +13,14 @@ public class TreeCollaps : MonoBehaviour
 
     [SerializeField] private GameObject target;
 
+    [SerializeField] private AudioSource treeSound;
+    private bool treeSFXon;
+
     private void Update()
     {
         if (statusCollaps == true)
         {
+
             if (statusRotation == true)
             {
                 Putar();
@@ -30,6 +34,17 @@ public class TreeCollaps : MonoBehaviour
     }
     void Putar()
     {
+        treeSFXon = true;
+
+        if (treeSFXon == true && treeSound.isPlaying == false)
+        {
+            treeSound.Play();
+        }
+        else if (treeSFXon == false && treeSound.isPlaying == true)
+        {
+            treeSound.Stop();
+        }
+
         rotZ += -Time.deltaTime * speedRotation;
         transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }

@@ -25,6 +25,8 @@ public class TriggerStone : MonoBehaviour
             {
                 stoneSound.Stop();
             }
+
+    
         }
     }
 }

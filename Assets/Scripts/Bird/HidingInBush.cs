@@ -41,7 +41,7 @@ public class HidingInBush : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             textObject.SetActive(true);
-            instruksi.text = "Press E";
+            instruksi.text = "Press E to Hide";
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

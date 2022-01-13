@@ -12,7 +12,6 @@ public class TuasOff : MonoBehaviour
         {
             pt.statusTuasDown = true;
             pt.statusTuasUp = false;
-            Debug.Log("sukses");
         }
     }
 }

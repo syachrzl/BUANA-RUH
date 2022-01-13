@@ -16,7 +16,7 @@ public class EndGameplay : MonoBehaviour
 
     private void Update()
     {
-        if(statusEnd == true)
+        if (statusEnd == true)
         {
             transition.SetBool("transisi", true);
             Invoke("LoadScene", 2f);
@@ -25,6 +25,15 @@ public class EndGameplay : MonoBehaviour
 
     private void LoadScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1 );
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            Debug.Log("true");
+            statusEnd = true;
+        }
     }
 }

@@ -9,6 +9,7 @@ public class PlayerTuas : MonoBehaviour
 
     [SerializeField] private KeyCode tombolTuas = KeyCode.E;
     [SerializeField] private AudioSource tuasSound;
+    private bool tuasSFXon = false;
 
     private void Update()
     {
@@ -16,8 +17,6 @@ public class PlayerTuas : MonoBehaviour
         {
             if (Input.GetKeyDown(tombolTuas))
             {
-                tuasSound.Play();
-
                 if (statusTuasUp == true)
                 {
                     statusTuasUp = false;
@@ -30,14 +29,27 @@ public class PlayerTuas : MonoBehaviour
                 }
             }
         }
+
+        if (tuasSFXon == true && Input.GetKey(KeyCode.E))
+        {
+            tuasSound.Play();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        statusTombol = true;
+        if (collision.gameObject.name == "Tuas")
+        {
+            statusTombol = true;
+            tuasSFXon = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        statusTombol = false;
+        if (collision.gameObject.name == "Tuas")
+        {
+            statusTombol = false;
+            tuasSFXon = false;
+        }
     }
 }

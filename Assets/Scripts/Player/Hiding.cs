@@ -8,6 +8,8 @@ public class Hiding : MonoBehaviour
     [HideInInspector] public bool statusHideF = true;
     [HideInInspector] public bool statusTombol = false;
 
+    [SerializeField] private AudioSource bushSound;
+    private bool bushSFXon;
 
     private void Update()
     {
@@ -15,6 +17,11 @@ public class Hiding : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                if(bushSFXon == true)
+                {
+                    bushSound.Play();
+                }
+
                 if (statusHideS == false)
                 {
                     statusHideS = true;
@@ -34,6 +41,7 @@ public class Hiding : MonoBehaviour
         if (collision.gameObject.name == "Bush")
         {
             statusTombol = true;
+            bushSFXon = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -41,6 +49,7 @@ public class Hiding : MonoBehaviour
         if (collision.gameObject.name == "Bush")
         {
             statusTombol = false;
+            bushSFXon = false;
         }
     }
 }

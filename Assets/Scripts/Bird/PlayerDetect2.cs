@@ -12,12 +12,16 @@ public class PlayerDetect2 : MonoBehaviour
 
     private bool statusTrigger = false; // berfungsi untuk menandai jikalau player sudah trigger, agar tidak trigger berkali"
 
+    [SerializeField] private AudioSource birdSound;
+    private bool birdSFXon;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player")
         {
             if (statusTrigger == false)
             {
+                birdSound.Play();
                 bird.statusBird = true;
                 bird2.statusBird = true;
                 bird3.statusBird = true;

@@ -63,6 +63,9 @@ public class PlayerMovement : MonoBehaviour
     private bool pushpullSFXon;
     [SerializeField] private AudioSource climbingSound;
     private bool climbingSFXon;
+    [SerializeField] public AudioSource afterjumpSound;
+    public bool afterjumpSFXon = false;
+    public bool afterjumpSFXon2 = false;
 
     private void Awake()
     {
@@ -91,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
         PushPull();
         JumpOnWall();
         onPushPull();
+        afterjump();
 
         //Animasi
         anim.SetBool("walk", horizontalInput != 0 && StatusPushPull == false);
@@ -272,6 +276,23 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("idleUphill", false);
             anim.SetBool("uphill", false);
         }
+    }
+
+    private void afterjump()
+    {
+        if(!isGrounded() == true)
+        {
+            afterjumpSFXon = true;
+            afterjumpSound.Stop();
+        }
+
+        if (isGrounded() == false && afterjumpSFXon == true)
+        {
+            afterjumpSound.Play();
+        } 
+
+
+
     }
 
     private bool isGrounded()

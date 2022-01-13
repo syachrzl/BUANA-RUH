@@ -11,10 +11,24 @@ public class Trap : MonoBehaviour
     public GameObject wayPoint2;
     [SerializeField] private float speed;
 
+    [SerializeField] private AudioSource knifeSound;
+    private bool knifeSFXon;
+
     void Update()
     {
         if (pm.statusTraps == true)
         {
+            knifeSFXon = true;
+
+            if (knifeSFXon == true && knifeSound.isPlaying == false)
+            {
+                knifeSound.Play();
+            }
+            else if (knifeSFXon == false && knifeSound.isPlaying == true)
+            {
+                knifeSound.Stop();
+            }
+
             transform.position = Vector2.MoveTowards(transform.position, wayPoint1.transform.position, Time.deltaTime * speed);
         }
         else if (pm.statusTraps == false)

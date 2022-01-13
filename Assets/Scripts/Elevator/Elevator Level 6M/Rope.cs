@@ -31,9 +31,9 @@ public class Rope : MonoBehaviour
         {
             temp.y = 3.5f;
         }
-        else if (temp.y >= 20f)
+        else if (temp.y >= 19f)
         {
-            temp.y = 20f;
+            temp.y = 19f;
         }
         transform.localScale = new Vector3(transform.localScale.x, temp.y, transform.localScale.z);
     }

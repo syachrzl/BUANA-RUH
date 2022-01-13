@@ -9,6 +9,8 @@ public class PlayerManager : MonoBehaviour
     public static float puzzleTotal;
     public float TotalPuzzle;
 
+    public ControlPanel cp;
+
     //BACKSOUND
     [SerializeField] private AudioSource backsound1;
     private bool backsound1On;
@@ -37,9 +39,10 @@ public class PlayerManager : MonoBehaviour
             ReplayLevel();
         }
 
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Escape) && cp.ControlMenu == false)
         {
             startScreen.SetActive(true);
+
         }
 
         TotalPuzzle = puzzleTotal;
@@ -48,6 +51,11 @@ public class PlayerManager : MonoBehaviour
 
         //BACKSOUND
         playBacksound();
+    }
+
+    public void ControlStatus()
+    {
+        cp.ControlMenu = false;
     }
 
     //HOLD DULU
