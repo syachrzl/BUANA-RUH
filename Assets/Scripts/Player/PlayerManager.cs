@@ -5,7 +5,9 @@ public class PlayerManager : MonoBehaviour
 {
     public static bool isGameOver; // Ketika mati maka gameover
     public GameObject startScreen; // Untuk Mengaktifkan Start
+
     public static Vector3 lastCheckPointPos = new Vector3(-500, 0, 0);
+
     public static float puzzleTotal;
     public float TotalPuzzle;
 
@@ -27,8 +29,13 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         isGameOver = false;
-        //GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
-        respawnSound.Play();
+        if(StatusNewGame.statnewgame == true)
+        {
+            GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(-500, 0, 0);
+        } else if(StatusNewGame.statnewgame == false)
+        {
+            GameObject.FindGameObjectWithTag("Player").transform.position = lastCheckPointPos;
+        }  
     }
 
     void Update()
@@ -42,7 +49,6 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKey(KeyCode.Escape) && cp.ControlMenu == false)
         {
             startScreen.SetActive(true);
-
         }
 
         TotalPuzzle = puzzleTotal;
@@ -111,14 +117,23 @@ public class PlayerManager : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene(1);
+        StatusNewGame.statnewgame = true;
+        SceneManager.LoadScene(3);
     }
+
 
     public void LoadGame()
     {
-        LoadPlayer();
-        SceneManager.LoadScene(1);
 
+        if (SaveSystem.LoadPlayer() == null)
+        {
+           
+        } else
+        {
+            StatusNewGame.statnewgame = false;
+            LoadPlayer();
+            SceneManager.LoadScene(1);
+        }
     }
 
     public void QuitGame()
@@ -139,6 +154,14 @@ public class PlayerManager : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             backsound1On = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            backsound1On = false;
         }
     }
 }

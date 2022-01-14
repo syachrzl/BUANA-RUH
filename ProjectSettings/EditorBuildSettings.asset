@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/EndSceneBuanaRuh/EndScene/EndScene.unity
     guid: 5b804e55f06bc5b4d8426e1f127d61ab
+  - enabled: 1
+    path: Assets/Levels/Intro.unity
+    guid: ef577242532a435488c21d9ae1659995
   m_configObjects: {}
